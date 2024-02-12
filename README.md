@@ -3,3 +3,4 @@
 Wiki Page: https://github.com/StanfordCS194/Win24-Team35/wiki
 
 Edited: Alex Paek
+Edited: Ngorli Paintsil
