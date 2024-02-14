@@ -16,12 +16,14 @@ const app = initialize(firebaseConfig);
 function writeUserData(userId, name, password, email, imageUrl, cuisine){		
 	const db = getDatabase();
 	const reference = ref(db, 'users/' + userId);
+	const recipeRef = db.collection('recipes').doc(userId);
 	set(reference, {
 		username: name, 
 		password: password,
 		email: email,
 		profile_picture: imageUrl,
 		preferred_cuisine: cuisine,
+		userRecipes: = recipeRef
 	});
 }
 
