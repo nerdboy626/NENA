@@ -1,0 +1,23 @@
+users (collection)
+  |- user1_profile (document)
+  |    |- username: "user1"
+  |    |- email: "user1@example.com"
+  |    |- password_hash: "hashed_password_here"
+  |    |- registration_date: "2024-02-13T12:00:00Z"
+  |    |- profile_picture_url: "https://storage.googleapis.com/user1_profile_picture.jpg" 
+  |    |- user_preferred_cuisines: "example_cuisine"
+  |    |- user_recipes: (subcollection)
+  |    |    |- recipe_1 (document)
+  |    |    |    |- title: "example_recipe_1"
+  |    |    |    |- picture: "https://storage.googleapis.com/user1_profile_pictures.jpg"
+  |    |    |    |- ingredient_list (document)
+  |    |    |    |    |- ingredient_1: "example_ingredient_1"
+  |    |    |    |    |- ingredient_2: "example_ingredient_2"
+  |    |    |    |
+  |    |    |    |- instruction_list (document)
+  |    |    |    |   |- instruction_1: "example_instruction_1"
+  |    |    |    |   |- instruction_2: "example_instruction_2"
+
+
+
+
