@@ -28,6 +28,15 @@ function writeUserData(userId, name, password, email, imageUrl, cuisine){
 }
 
 
-
-
-
+function createRecipe(userId, title, imageUrl, ingredientList, instructionList){		
+	const db = getDatabase();
+	const reference = ref(db, 'recipes/' + userId);
+	set(reference, {
+		recipe_title: tile, 
+		recipe_picture: imageUrl,
+		ingredients: ingredientList,
+		// [ ["ingredient 1"], ["ingredient 2"], ["ingredient 3"], ...]
+		instructions: instructionList,
+		// [ ["instruction 1"], ["instruction 2"], ["instruction 3"], ...]
+	});
+}
