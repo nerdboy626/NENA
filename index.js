@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref } from "firebase/database";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDl9sxkeNsyDShPfeNO8CR55N5YP90FLkc",
@@ -28,15 +29,13 @@ function writeUserData(userId, name, password, email, imageUrl, cuisine){
 }
 
 
-function createRecipe(userId, title, imageUrl, ingredientList, instructionList){		
-	const db = getDatabase();
-	const reference = ref(db, 'recipes/' + userId);
-	set(reference, {
-		recipe_title: tile, 
+async function createRecipe(userId, title, imageUrl, ingredientList, instructionList){		
+	const db = getFirestore();
+	const reference = ref(db, 'recipes' + userId);
+	await set(reference, {
+		recipe_title: title, 
 		recipe_picture: imageUrl,
 		ingredients: ingredientList,
-		// [ ["ingredient 1"], ["ingredient 2"], ["ingredient 3"], ...]
 		instructions: instructionList,
-		// [ ["instruction 1"], ["instruction 2"], ["instruction 3"], ...]
 	});
 }
