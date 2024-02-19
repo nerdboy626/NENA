@@ -13,11 +13,11 @@ const firebaseConfig = {
 }
 
 const app = initialize(firebaseConfig);
+const db = getFirestore();
+const reference = doc(db, 'users', userId);
 
-function writeUserData(userId, name, password, email, imageUrl, cuisine){		
-	const db = getDatabase();
-	const reference = ref(db, 'users/' + userId);
-	const recipeRef = db.collection('recipes').doc(userId);
+await writeUserData(userId, name, password, email, imageUrl, cuisine){		
+	const recipeRef = doc(db, 'recipes', userId);
 	set(reference, {
 		username: name, 
 		password: password,
@@ -31,7 +31,7 @@ function writeUserData(userId, name, password, email, imageUrl, cuisine){
 
 async function createRecipe(userId, title, imageUrl, ingredientList, instructionList){		
 	const db = getFirestore();
-	const reference = ref(db, 'recipes' + userId);
+	const reference = ref(db, 'recipes', userId);
 	await set(reference, {
 		recipe_title: title, 
 		recipe_picture: imageUrl,
