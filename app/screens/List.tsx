@@ -2,6 +2,9 @@ import { View, Text, Button } from 'react-native'
 import React, { useEffect } from 'react'
 import { FIRESTORE_DB } from '../../firebaseConfig'
 import { addDoc, collection } from 'firebase/firestore'
+import { addTodo, writeUserData, updateUserData } from '../firebaseAPI/firebaseAPI'
+
+let num = 0;
 
 const List = ({ navigation }: any) => {
   // Approach 1 to add to collection
@@ -10,15 +13,16 @@ const List = ({ navigation }: any) => {
   // }, []);
 
   // Approach 2 - async method
-  const addTodo = async () => {
-    const doc = addDoc(collection(FIRESTORE_DB, 'todos'), { title: 'I am a test', done: false })
-  }
+  // const addTodo = async () => {
+  //   const doc = addDoc(collection(FIRESTORE_DB, 'todos'), { title: 'I am a test', done: false })
+  // }
   
   return (
     <View>
       <Text>List</Text>
       <Button onPress={() => navigation.navigate('Details')} title="Open Details" />
-      <Button onPress={() => addTodo()} title="Add Todo" />
+      <Button onPress={() => addTodo(num)} title="Add Todo" />
+      <Button onPress={() => writeUserData("davidyang", "David Yang", "eqaewg", "alex@stanford.edu", "www.com", "Italian")} title="Add User" />
     </View>
   )
 }

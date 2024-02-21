@@ -24,7 +24,7 @@ await writeUserData(userId, name, password, email, imageUrl, cuisine){
 		email: email,
 		profile_picture: imageUrl,
 		preferred_cuisine: cuisine,
-		userRecipes: = recipeRef
+		userRecipes: recipeRef
 	});
 }
 
