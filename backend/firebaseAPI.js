@@ -5,23 +5,6 @@ import { FIRESTORE_DB as db } from '../../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
 
 
-// onAuthStateChanged(FIREBASE_AUTH, (user) => {
-//   if (user) {
-
-//   } else {
-    
-//   }
-// })
-
-
-export const addTodo = async (num) => {
-  console.log(num)
-  addDoc(collection(FIRESTORE_DB, 'todos'), { title: 'I am a test' + num, done: false })
-}
-
-// const reference = doc(FIRESTORE_DB, 'users', userId);
-
-
 export const createUserData = async (userProfile) => {
   try {
     const q = query(collection(db, "users"), where("user_id", "==", userProfile.user_id));
@@ -54,35 +37,6 @@ export const updateUserData = async (userProfile) => {
   });
 }
 
-export const updateUserData2 = async (userProfile) => { // dict userProfile
-  //
-  // {
-  //   userId: 'alexpaek',
-  //   password = '___',
-  // }
-
-
-	const userRef = doc(FIRESTORE_DB, 'users', userProfile.userId);
-
-  // Check if the user exists
-  const docSnap = await getDoc(userRef);
-  if (!docSnap.exists()) {
-    console.log("CALLED");
-    throw new Error("User does not exist");
-  }
-
-  // Prepare the update object based on provided parameters
-  // const updateData = {};
-  // if (name !== undefined) updateData.username = name;
-  // if (password !== undefined) updateData.password = password;
-  // if (email !== undefined) updateData.email = email;
-  // if (imageUrl !== undefined) updateData.profile_picture = imageUrl;
-  // if (cuisine !== undefined) updateData.preferred_cuisine = cuisine;
-
-  // Update the document with new data
-  await updateDoc(userRef, userProfile);
-}
-
 
 // Need to work on it
 export const createRecipe = async (userId, title, imageUrl, ingredientList, instructionList) => {
@@ -96,10 +50,17 @@ export const createRecipe = async (userId, title, imageUrl, ingredientList, inst
 }
 
 
-  // Prepare the update object based on provided parameters
-  // const updateData = {};
-  // if (name !== undefined) updateData.username = name;
-  // if (password !== undefined) updateData.password = password;
-  // if (email !== undefined) updateData.email = email;
-  // if (imageUrl !== undefined) updateData.profile_picture = imageUrl;
-  // if (cuisine !== undefined) updateData.preferred_cuisine = cuisine;
+// Example API
+export const addTodo = async (num) => {
+  console.log(num)
+  addDoc(collection(FIRESTORE_DB, 'todos'), { title: 'I am a test' + num, done: false })
+}
+
+// Authentication API - most likley no need
+// onAuthStateChanged(FIREBASE_AUTH, (user) => {
+//   if (user) {
+
+//   } else {
+    
+//   }
+// })
