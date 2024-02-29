@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FirstScreen from "../screens/FirstScreen";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import SignInScreen from "../screens/SignInScreen";
@@ -12,9 +12,8 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import PersonalInformationScreen from "../screens/PersonalInformationScreen";
 import GettingStartedScreen from "../screens/GettingStartedScreen";
 import HomeScreen from "../screens/HomeScreen";
-
 const Stack = createNativeStackNavigator();
-// const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 //Placeholders until these screens are created
 const WorkoutScreen = () => (
@@ -251,57 +250,57 @@ const SocialScreen = () => (
 //   );
 // };
 
-// const Tabs = () => {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//         tabBarShowLabel: false,
-//         tabBarActiveTintColor: "#3D5A80",
-//         tabBarInactiveTintColor: "#98C1D9",
-//       }}
-//     >
-//       <Tab.Screen
-//         name="HomeTab"
-//         component={HomeStack}
-//         options={{
-//           tabBarIcon: ({ color, size }) => (
-//             <Icon name="home" color={color} size={50} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Workout"
-//         component={WorkoutStack}
-//         options={{
-//           tabBarIcon: ({ color, size }) => (
-//             <Icon name="barbell" color={color} size={50} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Scheduling"
-//         component={ScheduleStack}
-//         options={{
-//           tabBarIcon: ({ color, size }) => (
-//             <Icon name="calendar" color={color} size={50} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Social"
-//         component={SocialStack}
-//         options={{
-//           tabBarIcon: ({ color, size }) => (
-//             <Icon name="people" color={color} size={50} />
-//           ),
-//           tabBarBadge: Globals.notificationCount,
-//           tabBarBadgeStyle: { backgroundColor: "#EE6C4D", color: "white" },
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// };
+const Tabs = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: "#3D5A80",
+        tabBarInactiveTintColor: "#98C1D9",
+      }}
+    >
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={50} />
+          ),
+        }}
+      />
+      {/* <Tab.Screen
+        name="Workout"
+        component={WorkoutStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="barbell" color={color} size={50} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Scheduling"
+        component={ScheduleStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="calendar" color={color} size={50} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Social"
+        component={SocialStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="people" color={color} size={50} />
+          ),
+          tabBarBadge: Globals.notificationCount,
+          tabBarBadgeStyle: { backgroundColor: "#EE6C4D", color: "white" },
+        }}
+      /> */}
+    </Tab.Navigator>
+  );
+};
 
 const Navigation = () => {
   return (
@@ -341,7 +340,7 @@ const Navigation = () => {
         />
         <Stack.Screen
           name="Home screen"
-          component={HomeScreen}
+          component={Tabs}
           options={{ animation: "none" }}
         />
       </Stack.Navigator>
