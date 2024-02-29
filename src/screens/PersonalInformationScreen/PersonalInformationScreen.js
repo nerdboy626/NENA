@@ -23,7 +23,7 @@ const SignInScreen = () => {
   };
   const onNextPressed = () => {
     // console.warn("Next");
-    navigation.navigate("Home screen");
+    navigation.navigate("Getting started screen");
   };
   const Rectangle = () => {
     return <View style={styles.rectangle} />;

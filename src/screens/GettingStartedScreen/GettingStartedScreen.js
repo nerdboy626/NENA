@@ -18,12 +18,12 @@ const GettingStartedScreen = () => {
   const [q1, setq1] = useState("");
   const [q2, setq2] = useState("");
   const levels = ["Beginner", "Intermediate", "Advanced"];
-  const goals = [
-    "Strength/muscle",
-    "Weight loss",
-    "Stamina/endurance",
-    "Flexbility",
-    "Balance/coordination",
+  const restrictions = [
+    "Vegan",
+    "Vegetarian",
+    "Kosher",
+    "Nut-free",
+    "Gluten-free",
   ];
   const locations = ["Gym", "Home", "Outside"];
   const durations = [
@@ -56,7 +56,9 @@ const GettingStartedScreen = () => {
         <Text style={styles.fitbud}>Fitbud</Text>
         <View style={styles.root}>
           <Text style={styles.title}>Getting Started</Text>
-          <Text style={styles.label}>What is your current fitness level?</Text>
+          <Text style={styles.label}>
+            What is your level of cooking expertise?
+          </Text>
           <SelectList
             // onSelect={() => alert(selected)}
             setSelected={setSelected}
@@ -67,10 +69,10 @@ const GettingStartedScreen = () => {
             dropdownStyles={styles.dropdownBox}
             placeholder={"Select best option"}
           />
-          <Text style={styles.label}>What are your fitness goals?</Text>
+          <Text style={styles.label}>What are your dietary restrictions?</Text>
           <MultipleSelectList
             setSelected={(val) => setSelected(val)}
-            data={goals}
+            data={restrictions}
             save="value"
             // onSelect={() => alert(selected)}
             label="Selected"
@@ -80,7 +82,7 @@ const GettingStartedScreen = () => {
             badgeStyles={styles.badge}
             placeholder={"Select all that apply"}
           />
-          <Text style={styles.label}>Where do you want to work out?</Text>
+          {/* <Text style={styles.label}>Where do you want to work out?</Text>
           <MultipleSelectList
             setSelected={(val) => setSelected(val)}
             data={locations}
@@ -136,7 +138,7 @@ const GettingStartedScreen = () => {
             dropdownStyles={styles.dropdownBox}
             badgeStyles={styles.badge}
             placeholder={"Select all that apply"}
-          />
+          /> */}
         </View>
         <View style={styles.buttons}>
           <CustomButton text="Submit" onPress={onSubmit} />
