@@ -6,12 +6,16 @@ import FirstScreen from "../screens/FirstScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Icon from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import PersonalInformationScreen from "../screens/PersonalInformationScreen";
 import GettingStartedScreen from "../screens/GettingStartedScreen";
 import HomeScreen from "../screens/HomeScreen";
+import FeedScreen from "../screens/FeedScreen";
+import SearchScreen from "../screens/SearchScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -264,8 +268,34 @@ const Tabs = () => {
         name="HomeTab"
         component={HomeScreen}
         options={{
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={50} />
+            <Ionicons name="person-circle-outline" size={48} color="black" />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="FeedTab"
+        component={FeedScreen}
+        options={{
+          tabBarLabel: "Feed",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="lightning-bolt"
+              size={48}
+              color="black"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SearchTab"
+        component={SearchScreen}
+        options={{
+          tabBarLabel: "Search",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search" size={48} color="black" />
           ),
         }}
       />
