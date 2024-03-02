@@ -57,30 +57,20 @@ export const loadUserData = async (userId) => {
   }
 }
 
-
-// Need to work on it
-export const createRecipe = async (userId, title, imageUrl, ingredientList, instructionList) => {
-	const reference = ref(FIRESTORE_DB, 'recipes', userId);
-	await set(reference, {
-		recipe_title: title, 
-		recipe_picture: imageUrl,
-		ingredients: ingredientList,
-		instructions: instructionList,
-	});
+export const userLogin = async (userName, Password) => {
+  try {
+      // search for the username
+      const q = query(collection(db, "users"), where("user_id", "==", userName));
+      const querySnapshot = await getDocs(q);
+      // throw an error if there is non match for the username or 
+      //if the password does not match for that username
+      if (querySnapshot.size == 0 || querySnapshot.docs[0].data().password != Password) {
+          throw new Error('Sorry, you entered an incorrect username or password');
+      };
+      await addDoc(collection(db, 'users'), userProfile);
+      console.log('User login successful');
+  } catch (error) {
+      console.log('Error', error.message);
+      return;
+  }; 
 }
-
-
-// Example API
-export const addTodo = async (num) => {
-  console.log(num)
-  addDoc(collection(FIRESTORE_DB, 'todos'), { title: 'I am a test' + num, done: false })
-}
-
-// Authentication API - most likley no need
-// onAuthStateChanged(FIREBASE_AUTH, (user) => {
-//   if (user) {
-
-//   } else {
-    
-//   }
-// })
