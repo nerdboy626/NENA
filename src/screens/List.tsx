@@ -2,7 +2,7 @@ import { View, Text, Button } from 'react-native'
 import React, { useEffect } from 'react'
 import { FIRESTORE_DB } from '../../firebaseConfig'
 import { addDoc, collection } from 'firebase/firestore'
-import { addTodo, createUserData, updateUserData } from '../../backend/firebaseAPI'
+import { addTodo, createUserData, updateUserData } from '../../backend/usersAPI'
 
 let num = 0;
 
