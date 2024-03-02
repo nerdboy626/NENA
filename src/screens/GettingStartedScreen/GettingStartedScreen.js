@@ -14,6 +14,8 @@ import {
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { Themes } from "../../../assets/Themes";
+import { createUserData } from "../../../backend/usersAPI";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GettingStartedScreen = () => {
   const [q1, setq1] = useState("");
@@ -46,11 +48,24 @@ const GettingStartedScreen = () => {
   const times = ["Morning", "Afternoon", "Evening"];
   const [selected, setSelected] = React.useState("");
   const navigation = useNavigation();
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // console.warn("Submit");
     // userProfile --> persists across muktipe files
-    createUserData(userProfile);
-    navigation.navigate("Select buddy");
+    try {
+      let userProfile = await AsyncStorage.getItem('userProfile');
+      userProfile = JSON.parse(userProfile);
+      console.log('user: ', userProfile); // DOWN BELOW: Ethan and Nico need to figure out how to access cooking level and dietary restrictions
+      // userProfile = {
+      //   ...userProfile,
+      //   'cooking_level': selected,
+      //   'dietary_restrictions': selected
+      // }
+      // await AsyncStorage.setItem('user', JSON.stringify(userProfile));
+      createUserData(userProfile); // Calling API to create user data. Ran test and this all works so far
+      // navigation.navigate("Select buddy");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

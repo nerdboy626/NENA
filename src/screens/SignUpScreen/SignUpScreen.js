@@ -12,28 +12,28 @@ import { Themes } from "../../../assets/Themes";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import { createUserData } from "../../../backend/firebaseAPI";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const SignUpScreen = () => {
-  const { username, setUsername } = useState("");
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
-  const { passwordRepeat, setPasswordRepeat } = useState("");
+  const [ username, setUsername ] = useState(""); // should be [ ] and not { }
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ passwordRepeat, setPasswordRepeat ] = useState("");
   const navigation = useNavigation();
-  const onRegisterPressed = () => {
+  const onRegisterPressed = async () => { // When calling AsyncStorage, need to make functions async ()
     // console.warn("Register");
-    console.log("frontend username", username);
-    {
-      /*
-    let userProfile = {
-      user_id: "nico",
-      password: "1111",
-      email: "nico@stanford.edu",
-    */
+    try { // Also need these try/catch statements when handling async functions
+      let userProfile = {
+        user_id: username,
+        email: email,
+        password: password,
+      }
+      await AsyncStorage.setItem('userProfile', JSON.stringify(userProfile)); // Stores userProfile dict into variable that persists across multiple files
+      navigation.navigate("Welcome screen");
+    } catch (e) {
+      console.error(e);
     }
-    console.log("frontend username", username);
-    // createUserData(userProfile);
-    navigation.navigate("Welcome screen");
   };
   const onSignInPressed = () => {
     // console.warn("Sign in");
@@ -47,28 +47,28 @@ const SignUpScreen = () => {
         <Text style={styles.title}>Sign up</Text>
         <Text style={styles.label}>Username</Text>
         <CustomInput
-          placeholder="Enter username"
           value={username}
           setValue={setUsername}
+          placeholder="Enter username"
         />
         <Text style={styles.label}>Email</Text>
         <CustomInput
+          value={email}
+          setValue={setEmail}
           placeholder="Enter email"
-          value={username}
-          setValue={setUsername}
         />
         <Text style={styles.label}>Password</Text>
         <CustomInput
-          placeholder="Enter password"
           value={password}
           setValue={setPassword}
+          placeholder="Enter password"
           secureTextEntry={true}
         />
         <Text style={styles.label}>Confirm password</Text>
         <CustomInput
+          value={passwordRepeat}
+          setValue={setPasswordRepeat}
           placeholder="Enter password"
-          value={password}
-          setValue={setPassword}
           secureTextEntry={true}
         />
       </View>
