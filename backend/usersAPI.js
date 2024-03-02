@@ -1,11 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { addDoc, collection, query, get, where, getDocs, getFirestore, doc, setDoc, getDoc, updateDoc, FirestoreError } from 'firebase/firestore';
-import { FIRESTORE_DB as db } from '../../firebaseConfig'
+import { FIRESTORE_DB as db } from '../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
 
 
 export const createUserData = async (userProfile) => {
+  // need to create blank friends collection
   try {
     const q = query(collection(db, "users"), where("user_id", "==", userProfile.user_id));
     const querySnapshot = await getDocs(q);
@@ -35,6 +36,25 @@ export const updateUserData = async (userProfile) => {
   }).catch((error) => {
     console.error("Error updating document: ", error);
   });
+}
+
+export const loadUserData = async (userId) => {
+  const q = query(collection(db, "users"), where("user_id", "==", userId));
+  const querySnapshot = await getDocs(q);
+  let userData = null; // Initialize an empty object to hold user data
+
+  querySnapshot.forEach((doc) => {
+    // Assuming there's only one document with this user_id
+    userData = { ...doc.data() }; // Combine doc.id with doc.data()
+  });
+
+  if (userData) {
+    console.log("User data successfully retrieved", userData);
+    return userData; // Return the userData as a dictionary
+  } else {
+    console.error("No user found with the given user_id");
+    return {}; // Return an empty object if no user was found
+  }
 }
 
 
