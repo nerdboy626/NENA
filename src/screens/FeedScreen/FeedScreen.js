@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
   SafeAreaView,
 } from "react-native";
-
+import { Themes } from "../../../assets/Themes";
 export default function Page() {
   return (
     <SafeAreaView style={styles.container}>
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 24,
+    backgroundColor: Themes.colors.background,
   },
   main: {
     flex: 1,

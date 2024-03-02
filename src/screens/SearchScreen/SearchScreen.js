@@ -10,6 +10,7 @@ import {
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
+import { Themes } from "../../../assets/Themes";
 
 export default function Page() {
   const [recipeName, setRecipeName] = useState("");
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 24,
+    backgroundColor: Themes.colors.background,
   },
   main: {
     flex: 1,

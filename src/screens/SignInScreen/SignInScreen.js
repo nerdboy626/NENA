@@ -11,6 +11,7 @@ import {
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { Themes } from "../../../assets/Themes";
 
 const SignInScreen = () => {
   const { username, setUsername } = useState("");
@@ -71,7 +72,7 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FF5236",
+    backgroundColor: Themes.colors.background,
   },
   root: {
     //alignItems: "center",

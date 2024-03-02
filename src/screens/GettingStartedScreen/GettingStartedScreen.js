@@ -13,6 +13,7 @@ import {
 } from "react-native-dropdown-select-list";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { Themes } from "../../../assets/Themes";
 
 const GettingStartedScreen = () => {
   const [q1, setq1] = useState("");
@@ -47,6 +48,8 @@ const GettingStartedScreen = () => {
   const navigation = useNavigation();
   const onSubmit = () => {
     // console.warn("Submit");
+    // userProfile --> persists across muktipe files
+    createUserData(userProfile);
     navigation.navigate("Select buddy");
   };
 
@@ -214,7 +217,7 @@ const GettingStartedScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FF5236",
+    backgroundColor: Themes.colors.background,
   },
   root: {
     //alignItems: "center",

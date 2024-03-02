@@ -7,10 +7,12 @@ import {
   useWindowDimensions,
   SafeAreaView,
 } from "react-native";
+import { Themes } from "../../../assets/Themes";
 
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { createUserData } from "../../../backend/firebaseAPI";
 
 const SignUpScreen = () => {
   const { username, setUsername } = useState("");
@@ -20,6 +22,17 @@ const SignUpScreen = () => {
   const navigation = useNavigation();
   const onRegisterPressed = () => {
     // console.warn("Register");
+    console.log("frontend username", username);
+    {
+      /*
+    let userProfile = {
+      user_id: "nico",
+      password: "1111",
+      email: "nico@stanford.edu",
+    */
+    }
+    console.log("frontend username", username);
+    // createUserData(userProfile);
     navigation.navigate("Welcome screen");
   };
   const onSignInPressed = () => {
@@ -102,7 +115,7 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FF5236",
+    backgroundColor: Themes.colors.background,
   },
   root: {
     //alignItems: "center",

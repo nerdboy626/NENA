@@ -10,6 +10,7 @@ import {
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { Themes } from "../../../assets/Themes";
 
 const FirstScreen = () => {
   const { username, setUsername } = useState("");
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FF5236",
     justifyContent: "center",
+    backgroundColor: Themes.colors.background,
   },
   root: {
     //alignItems: "center",

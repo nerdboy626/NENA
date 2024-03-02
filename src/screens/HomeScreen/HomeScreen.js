@@ -10,6 +10,7 @@ import {
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { Themes } from "../../../assets/Themes";
 
 const FirstScreen = () => {
   const { username, setUsername } = useState("");
@@ -70,7 +71,7 @@ const FirstScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FF5236",
+    backgroundColor: Themes.colors.background,
     justifyContent: "center",
   },
   root: {
