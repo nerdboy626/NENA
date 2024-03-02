@@ -12,7 +12,7 @@ const CustomInput = ({
     <View style={[styles.container, styles[`container_${type}`]]}>
       <TextInput
         value={value}
-        onChangeText={setValue}
+        onChangeText={(text) => setValue(text)} // This allows text to be stored in variable
         placeholder={placeholder}
         style={[styles.input, styles[`input_${type}`]]}
         secureTextEntry={secureTextEntry}
