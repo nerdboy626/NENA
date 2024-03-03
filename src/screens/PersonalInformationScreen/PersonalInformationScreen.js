@@ -12,19 +12,33 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { Themes } from "../../../assets/Themes";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInScreen = () => {
-  const { firstName, setFirstName } = useState("");
-  const { lastName, setLastName } = useState("");
-  const { birthday, setBirthday } = useState("");
+  const [ firstName, setFirstName ] = useState("");
+  const [ lastName, setLastName ] = useState("");
+  const [ birthday, setBirthday ] = useState("");
   const navigation = useNavigation();
   const onSignInPressed = () => {
     // console.warn("Sign in");
     navigation.navigate("Home");
   };
-  const onNextPressed = () => {
+  const onNextPressed = async () => {
     // console.warn("Next");
-    navigation.navigate("Getting started screen");
+    try {
+      let userProfile = await AsyncStorage.getItem('userProfile');
+      userProfile = JSON.parse(userProfile);
+      userProfile = { // Addings fields newly populated in this file
+        ...userProfile,
+        'first_name': firstName,
+        'last_name': lastName,
+        'DOB': birthday,
+      }
+      await AsyncStorage.setItem('userProfile', JSON.stringify(userProfile));
+      navigation.navigate("Getting started screen");
+    } catch (e) {
+      console.error(e);
+    }
   };
   const Rectangle = () => {
     return <View style={styles.rectangle} />;
@@ -38,21 +52,21 @@ const SignInScreen = () => {
         <Text style={styles.title}>Personal information</Text>
         <Text style={styles.label}>First name</Text>
         <CustomInput
-          placeholder="Enter first name"
           value={firstName}
           setValue={setFirstName}
+          placeholder="Enter first name"
         />
         <Text style={styles.label}>Last name</Text>
         <CustomInput
-          placeholder="Enter last name"
           value={lastName}
           setValue={setLastName}
+          placeholder="Enter last name"
         />
         <Text style={styles.label}>Date of birth</Text>
         <CustomInput
-          placeholder="Enter birthday (MM/DD/YYYY)"
           value={birthday}
           setValue={setBirthday}
+          placeholder="Enter birthday (MM/DD/YYYY)"
         />
       </View>
       <View style={styles.buttons}>
