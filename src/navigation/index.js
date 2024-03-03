@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FirstScreen from "../screens/FirstScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Themes } from "../../assets/Themes";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import { Ionicons } from "@expo/vector-icons";
@@ -259,9 +260,10 @@ const Tabs = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: "#3D5A80",
-        tabBarInactiveTintColor: "#98C1D9",
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: Themes.colors.background,
+        tabBarInactiveTintColor: Themes.colors.lightShade,
+        //tabBarLabelStyle: { color: "black" },
       }}
     >
       <Tab.Screen
@@ -269,8 +271,9 @@ const Tabs = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: "Profile",
+          color: "black",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" size={48} color="black" />
+            <Ionicons name="person-circle-outline" size={36} color={color} />
           ),
         }}
       />
@@ -283,8 +286,8 @@ const Tabs = () => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="lightning-bolt"
-              size={48}
-              color="black"
+              size={36}
+              color={color}
             />
           ),
         }}
@@ -295,7 +298,7 @@ const Tabs = () => {
         options={{
           tabBarLabel: "Search",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search" size={48} color="black" />
+            <Ionicons name="search" size={36} color={color} />
           ),
         }}
       />
