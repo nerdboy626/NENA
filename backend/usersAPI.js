@@ -18,7 +18,7 @@ export const createUserData = async (userProfile) => {
   } catch (error) {
     console.log('Error', error.message);
     return;
-  }; 
+  };
 }
 
 export const updateUserData = async (userProfile) => {
@@ -59,18 +59,18 @@ export const loadUserData = async (userId) => {
 
 export const userLogin = async (userName, Password) => {
   try {
-      // search for the username
-      const q = query(collection(db, "users"), where("user_id", "==", userName));
-      const querySnapshot = await getDocs(q);
-      // throw an error if there is non match for the username or 
-      //if the password does not match for that username
-      if (querySnapshot.size == 0 || querySnapshot.docs[0].data().password != Password) {
-          throw new Error('Sorry, you entered an incorrect username or password');
-      };
-      await addDoc(collection(db, 'users'), userProfile);
-      console.log('User login successful');
+    // search for the username
+    const q = query(collection(db, "users"), where("user_id", "==", userName));
+    const querySnapshot = await getDocs(q);
+    // throw an error if there is non match for the username or 
+    //if the password does not match for that username
+    if (querySnapshot.size == 0 || querySnapshot.docs[0].data().password != Password) {
+      throw new Error('Sorry, you entered an incorrect username or password');
+    };
+    await addDoc(collection(db, 'users'), userProfile);
+    console.log('User login successful');
   } catch (error) {
-      console.log('Error', error.message);
-      return;
-  }; 
+    console.log('Error', error.message);
+    return;
+  };
 }
