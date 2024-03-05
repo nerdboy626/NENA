@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { addDoc, collection, query, get, where, getDocs, getFirestore, doc, setDoc, getDoc, updateDoc, FirestoreError } from 'firebase/firestore';
+import { storage } from 'firebase/firestore';
 import { FIRESTORE_DB as db } from '../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
 
@@ -13,6 +14,21 @@ export const createUserData = async (userProfile) => {
     if (querySnapshot.size > 0) {
       throw new Error('User already ready exists');
     };
+    userProfile = {
+      ...userProfile,
+      "friend_requests": [],
+      "friends": [],
+      "pending_requests": []
+    };
+    
+    // Image Handling
+    const imageUri = userProfile.profile_picture;
+    const filename = `users/${userProfile.userId}/${imageUri.substring(imageUri.lastIndexOf('/') + 1)}`; // A unique file name for the image
+    const uploadUri = Platform.OS === 'ios' ? imageUri.replace('file://', '') : imageUri;
+    await storage().ref(filename).putFile(uploadUri);
+    const url = await storage().ref(filename).getDownloadURL();
+    userProfile.profile_picture = url;
+
     await addDoc(collection(db, 'users'), userProfile);
     console.log('User data created successfully');
   } catch (error) {
