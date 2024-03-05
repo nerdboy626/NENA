@@ -5,6 +5,7 @@ import { FIRESTORE_DB as db } from '../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
 
 export const createRecipe = async (recipe) => {
+  recipe.time_stamp = serverTimestamp();
   await addDoc(collection(db, 'recipes'), recipe);
   console.log('Recipe uploaded successfully');
 }
@@ -29,4 +30,27 @@ export const updateRecipe = async (recipe) => {
   }).catch((error) => {
     console.error("Error updating recipe: ", error);
   });
+}
+
+export const loadRecipeFeedData = async (userId) => {
+  const q1 = query(collection(db, "users"), where("user_id", "==", userId));
+  const querySnapshot1 = await getDocs(q1);
+
+  // access all of a users friends
+  const userFriends = querySnapshot1.docs[0].data().friends;
+
+  let recipeList = [];
+
+  // access all of the recipes for each friend and sort them new to old by timestamps through a query
+  const q2 = query(collection(db, "recipes"), where('user_id', 'in', userFriends), orderBy('time_stamp', 'desc'));
+  const querySnapshot2 = await getDocs(q2);
+  querySnapshot2.forEach(doc => {
+    let data = doc.data();
+    recipeList.push(data);
+  });
+
+  // return a list of the recipe data
+  console.log("Recipe data successfully retrived", recipeList);
+  return recipeList;
+  // console.log("Recipe Feed Data Loaded")
 }
