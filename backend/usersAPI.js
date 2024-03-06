@@ -4,7 +4,7 @@ import { addDoc, collection, query, get, where, getDocs, getFirestore, doc, setD
 import { storage } from 'firebase/firestore';
 import { FIRESTORE_DB as db } from '../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
-
+import { uploadImage } from './imagesAPI';
 
 export const createUserData = async (userProfile) => {
   // need to create blank friends collection
@@ -23,21 +23,19 @@ export const createUserData = async (userProfile) => {
     
     // Image Handling
     const imageUri = userProfile.profile_picture;
-    const filename = `users/${userProfile.userId}/${imageUri.substring(imageUri.lastIndexOf('/') + 1)}`; // A unique file name for the image
-    const uploadUri = Platform.OS === 'ios' ? imageUri.replace('file://', '') : imageUri;
-    await storage().ref(filename).putFile(uploadUri);
-    const url = await storage().ref(filename).getDownloadURL();
-    userProfile.profile_picture = url;
+    const downloadURL = await uploadImage(imageUri);
+    userProfile['profile_picture'] = downloadURL;
 
     await addDoc(collection(db, 'users'), userProfile);
     console.log('User data created successfully');
+    return userProfile;
   } catch (error) {
     console.log('Error', error.message);
     return;
   };
 }
 
-export const updateUserData = async (userProfile) => {
+export const updateUserData = async (userProfile) => { // Image uploads can be tackled last.. Bit complicated
   let userDocId;
   const q = query(collection(db, "users"), where("user_id", "==", userProfile.userId));
   const querySnapshot = await getDocs(q);

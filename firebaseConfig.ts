@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 // import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
@@ -26,5 +27,7 @@ const app = initializeApp(firebaseConfig);
 
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP);
+export const FIREBASE_STORAGE = getStorage();
 // export const FIREBASE_AUTH = getAuth(FIREBASE_APP); 
 
+ 
