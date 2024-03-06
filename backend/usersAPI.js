@@ -1,9 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { addDoc, collection, query, get, where, getDocs, getFirestore, doc, setDoc, getDoc, updateDoc, FirestoreError } from 'firebase/firestore';
+import { storage } from 'firebase/firestore';
 import { FIRESTORE_DB as db } from '../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
-
+import { uploadImage } from './imagesAPI';
 
 export const createUserData = async (userProfile) => {
   // need to create blank friends collection
@@ -13,15 +14,28 @@ export const createUserData = async (userProfile) => {
     if (querySnapshot.size > 0) {
       throw new Error('User already ready exists');
     };
+    userProfile = {
+      ...userProfile,
+      "friend_requests": [],
+      "friends": [],
+      "pending_requests": []
+    };
+    
+    // Image Handling
+    const imageUri = userProfile.profile_picture;
+    const downloadURL = await uploadImage(imageUri);
+    userProfile['profile_picture'] = downloadURL;
+
     await addDoc(collection(db, 'users'), userProfile);
     console.log('User data created successfully');
+    return userProfile;
   } catch (error) {
     console.log('Error', error.message);
     return;
   };
 }
 
-export const updateUserData = async (userProfile) => {
+export const updateUserData = async (userProfile) => { // Image uploads can be tackled last.. Bit complicated
   let userDocId;
   const q = query(collection(db, "users"), where("user_id", "==", userProfile.userId));
   const querySnapshot = await getDocs(q);

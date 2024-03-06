@@ -5,12 +5,17 @@ import { FIRESTORE_DB as db } from '../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
 
 export const createRecipe = async (recipe) => {
+  const imageUri = recipe.recipe_picture;
+  const downloadURL = await uploadImage(imageUri);
+  recipe['recipe_picture'] = downloadURL;
+
   recipe.time_stamp = serverTimestamp();
   await addDoc(collection(db, 'recipes'), recipe);
   console.log('Recipe uploaded successfully');
+  return recipe; // NGORLI + frontend: need to take care of updated recipe_picture url to the frontend
 }
 
-export const updateRecipe = async (recipe) => {
+export const updateRecipe = async (recipe) => { // Image uploads can be tackled last.. Bit complicated
   let recipeId;
   // get all of the users recipes
   const q = query(collection(db, "recipes"), where("user", "==", recipe.user_id));
