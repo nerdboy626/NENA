@@ -1,11 +1,11 @@
 import { FIREBASE_STORAGE as storage } from '../firebaseConfig'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-export const uploadImage = async (imageUri) => {
+export const uploadImage = async (imageUri, imageType) => {
   try {
     const response = await fetch(imageUri);
     const blob = await response.blob();
-    const storageRef = ref(storage, 'images/' + new Date().toISOString());
+    const storageRef = ref(storage, `images/${imageType}/` + new Date().toISOString());
     // 'file' comes from the Blob or File API
     const snapshot = await uploadBytes(storageRef, blob);
     console.log('Uploaded a blob or file!', snapshot);

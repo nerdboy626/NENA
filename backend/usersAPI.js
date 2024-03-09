@@ -23,7 +23,7 @@ export const createUserData = async (userProfile) => {
     
     // Image Handling
     const imageUri = userProfile.profile_picture;
-    const downloadURL = await uploadImage(imageUri);
+    const downloadURL = await uploadImage(imageUri, 'users');
     userProfile['profile_picture'] = downloadURL;
 
     await addDoc(collection(db, 'users'), userProfile);
