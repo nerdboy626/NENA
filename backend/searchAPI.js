@@ -45,8 +45,7 @@ export const getPublicRecipes = async (userId, keyword) => {
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     // Perform case-sensitive contains check on client side
-    if (data.recipe_title.toLowerCase().includes(keyword) ||
-        data.recipe_description.toLowerCase().includes(keyword) &&
+    if (data.recipe_title.toLowerCase().includes(keyword) &&
         data.user_id != userId) {
       recipesList.push(data);
     }
