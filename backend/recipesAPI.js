@@ -1,15 +1,16 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { addDoc, collection, query, get, where, getDocs, getFirestore, doc, setDoc, getDoc, updateDoc, FirestoreError } from 'firebase/firestore';
+import { addDoc, collection, query, get, where, getDocs, getFirestore, doc, setDoc, getDoc, updateDoc, FirestoreError, serverTimestamp } from 'firebase/firestore';
 import { FIRESTORE_DB as db } from '../firebaseConfig'
 import { getDatabase, onValue, ref } from "firebase/database";
+import { uploadImage } from './imagesAPI';
 
 export const createRecipe = async (recipe) => {
   const imageUri = recipe.recipe_picture;
-  const downloadURL = await uploadImage(imageUri);
+  const downloadURL = await uploadImage(imageUri, "recipes");
   recipe['recipe_picture'] = downloadURL;
 
-  recipe.time_stamp = serverTimestamp();
+  recipe['time_stamp'] = serverTimestamp();
   await addDoc(collection(db, 'recipes'), recipe);
   console.log('Recipe uploaded successfully');
   return recipe; // NGORLI + frontend: need to take care of updated recipe_picture url to the frontend
