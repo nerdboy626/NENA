@@ -6,6 +6,7 @@ import {
   query,
   get,
   where,
+  orderBy,
   getDocs,
   getFirestore,
   doc,
@@ -26,7 +27,7 @@ export const createRecipe = async (recipe) => {
 
   recipe["time_stamp"] = serverTimestamp();
   await addDoc(collection(db, "recipes"), recipe);
-  console.log("Recipe uploaded successfully");
+  console.log("Recipe uploaded successfully", recipe);
   return recipe; // NGORLI + frontend: need to take care of updated recipe_picture url to the frontend
 };
 
@@ -58,23 +59,17 @@ export const updateRecipe = async (recipe) => {
     });
 };
 
-export const loadRecipeFeedData = async (userId) => {
-  const q1 = query(collection(db, "users"), where("user_id", "==", userId));
-  const querySnapshot1 = await getDocs(q1);
-
-  // access all of a users friends
-  const userFriends = querySnapshot1.docs[0].data().friends;
-
+export const loadUserRecipe = async (userId) => {
   let recipeList = [];
 
   // access all of the recipes for each friend and sort them new to old by timestamps through a query
-  const q2 = query(
+  const q = query(
     collection(db, "recipes"),
-    where("user_id", "in", userFriends),
+    where("user_id", "==", userId),
     orderBy("time_stamp", "desc")
   );
-  const querySnapshot2 = await getDocs(q2);
-  querySnapshot2.forEach((doc) => {
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
     let data = doc.data();
     recipeList.push(data);
   });
