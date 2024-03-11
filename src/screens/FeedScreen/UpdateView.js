@@ -7,80 +7,34 @@ import {
   useWindowDimensions,
   Dimensions,
   SafeAreaView,
-  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Themes } from "../../../assets/Themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loadRecipeFeedData } from "../../../backend/recipesAPI";
 import { getFriendsRecipes } from "../../../backend/searchAPI";
-import UpdateItem from "./UpdateView";
-import TryAgain from "./TryAgain";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function Page() {
-  const [username, setUsername] = useState(""); // should be [ ] and not { }
-  const [email, setEmail] = useState("");
-  const [recipeList, setRecipes] = useState([]);
-  //let recipeList = [];
+const UpdateItem = ({ item, index }) => {
+  const recipeName = item.recipe_title;
+  const pic = item.recipe_picture;
+  const recipeInfo = item.recipe_description;
+  const userName = item.user_id;
 
-  const getRecipes = async () => {
-    try {
-      let userInfo = await AsyncStorage.getItem("userProfile");
-      userInfo = JSON.parse(userInfo);
-      console.log("hi");
-      //console.log("user_info", userInfo);
-      //setUsername("heloooo");
-      //let userName = "heloooooo";
-      console.log(userInfo.user_id);
-      console.log(userInfo);
-      console.log("hey");
-      //console.log(userName);
-      //console.log("hey");
-      //setRecipes(loadRecipeFeedData(userInfo.user_id));
-      //recipeList = await loadRecipeFeedData(userInfo.user_id);
-      const recipes = await loadRecipeFeedData(userInfo.user_id);
-      setRecipes(recipes);
-      console.log(recipeList);
-      console.log("ahhhhh");
-      console.log(recipeList[0]);
-      console.log(recipeList[0].recipe_title);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  useEffect(() => {
-    getRecipes();
-  }, []);
-
-  //getRecipes();
-
-  let contentDisplayed = null;
-
-  if (recipeList !== null) {
-    contentDisplayed = (
-      <FlatList
-        data={recipeList}
-        renderItem={({ item, index }) => (
-          <UpdateItem item={item} index={index} />
-        )}
-      />
-    );
-  } else {
-    contentDisplayed = <TryAgain />;
-  }
-
+  //const eventPromoter = item._embedded.promoter.name;
+  //const eventType = item.classifications[0].segment.name;
+  //const eventSubType = item.classifications[0].genre.name;
+  //const eventDate = item.dates.start.localDate;
+  //const priceMin = item._embedded.priceRanges[0].min;
+  //const priceMax = item.priceRanges[0].max;
+  //const eventVenue = item._embedded.venues[0].name;
+  //const eventWebsite = item.url;
+  //console.log(item);
+  //console.log(item.description);
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>{contentDisplayed}</View>
-    </SafeAreaView>
-  );
-  /*
-  return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <View style={styles.updateContainer}>
         <View style={styles.updateHeader}>
           <Ionicons
@@ -89,39 +43,33 @@ export default function Page() {
             color={Themes.colors.darkShade}
           />
           <Text numberOfLines={1} style={styles.userProfile}>
-            {recipeList.length > 0 ? recipeList[0].user_id : "Loading..."}
+            {userName}
           </Text>
         </View>
         <View style={styles.recipeImageContainer}>
           <Image
             style={styles.recipeImage}
-            source={
-              recipeList.length > 0
-                ? { uri: recipeList[0].recipe_picture }
-                : require("../../../assets/favicon.png")
-            }
+            source={{ uri: pic }}
 
             //{require("../../../assets/favicon.png")}
           />
         </View>
         <View style={styles.updateFooter}>
           <Text numberOfLines={1} style={styles.recipeDescription}>
-            {recipeList.length > 0 ? recipeList[0].recipe_title : "Loading..."}
+            {recipeName}
           </Text>
           <Text numberOfLines={1} style={styles.recipeDescription}>
             This is where the recipe rating would go
           </Text>
           <Text numberOfLines={2} style={styles.recipeDescription}>
-            {recipeList.length > 0
-              ? recipeList[0].recipe_description
-              : "Loading..."}
+            {recipeInfo}
           </Text>
         </View>
       </View>
     </SafeAreaView>
   );
-  */
-}
+};
+export default UpdateItem;
 
 const styles = StyleSheet.create({
   container: {
@@ -176,9 +124,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: Themes.colors.darkShade,
-  },
-  content: {
-    height: "100%",
-    width: "100%",
   },
 });

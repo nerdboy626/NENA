@@ -12,14 +12,23 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { Themes } from "../../../assets/Themes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignInScreen = () => {
-  const { username, setUsername } = useState("");
-  const { password, setPassword } = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const onSignInPressed = () => {
-    // console.warn("Sign in");
-    navigation.navigate("Home screen");
+  const onSignInPressed = async () => {
+    try {
+      let userProfile = {
+        user_id: username,
+        password: password,
+      };
+      await AsyncStorage.setItem("userProfile", JSON.stringify(userProfile));
+      navigation.navigate("Home screen");
+    } catch (e) {
+      console.error(e);
+    }
   };
   const onForgotPasswordPressed = () => {
     console.warn("Forgot password");
@@ -40,15 +49,15 @@ const SignInScreen = () => {
         <Text style={styles.title}>Sign in</Text>
         <Text style={styles.label}>Username or email</Text>
         <CustomInput
-          placeholder="Enter username or email"
           value={username}
           setValue={setUsername}
+          placeholder="Enter username or email"
         />
         <Text style={styles.label}>Password</Text>
         <CustomInput
-          placeholder="Enter password"
           value={password}
           setValue={setPassword}
+          placeholder="Enter password"
           secureTextEntry={true}
         />
         <CustomButton

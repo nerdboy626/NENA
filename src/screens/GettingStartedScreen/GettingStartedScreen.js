@@ -15,7 +15,7 @@ import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { Themes } from "../../../assets/Themes";
 import { createUserData } from "../../../backend/usersAPI";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const GettingStartedScreen = () => {
   const [q1, setq1] = useState("");
@@ -52,9 +52,9 @@ const GettingStartedScreen = () => {
     // console.warn("Submit");
     // userProfile --> persists across muktipe files
     try {
-      let userProfile = await AsyncStorage.getItem('userProfile');
+      let userProfile = await AsyncStorage.getItem("userProfile");
       userProfile = JSON.parse(userProfile);
-      console.log('user: ', userProfile); // DOWN BELOW: Ethan and Nico need to figure out how to access cooking level and dietary restrictions
+      console.log("user: ", userProfile); // DOWN BELOW: Ethan and Nico need to figure out how to access cooking level and dietary restrictions
       // userProfile = {
       //   ...userProfile,
       //   'cooking_level': selected,
@@ -71,7 +71,7 @@ const GettingStartedScreen = () => {
   return (
     <ScrollView>
       <SafeAreaView style={styles.container} forceInset={{ bottom: "always" }}>
-        <Text style={styles.fitbud}>Fitbud</Text>
+        <Text style={styles.fitbud}>NENA</Text>
         <View style={styles.root}>
           <Text style={styles.title}>Getting Started</Text>
           <Text style={styles.label}>
