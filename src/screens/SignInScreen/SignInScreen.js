@@ -12,6 +12,7 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { Themes } from "../../../assets/Themes";
+import { loadUserData } from "../../../backend/usersAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignInScreen = () => {
@@ -19,11 +20,8 @@ const SignInScreen = () => {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const onSignInPressed = async () => {
-    try {
-      let userProfile = {
-        user_id: username,
-        password: password,
-      };
+    try { 
+      const userProfile = await loadUserData(username); // TODO: need to error check if invalid <username />
       await AsyncStorage.setItem("userProfile", JSON.stringify(userProfile));
       navigation.navigate("Home screen");
     } catch (e) {
