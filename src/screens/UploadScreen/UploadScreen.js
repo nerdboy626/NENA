@@ -9,16 +9,19 @@ import {
   StyleSheet,
   Switch,
   ScrollView,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Themes } from "../../../assets/Themes";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { createRecipe } from "../../../backend/recipesAPI";
 
 const ImagePickerWithdescription = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [description, setDescription] = useState("");
-  const [ingredients, setIngredients] = useState("");
-  const [procedure, setProcedure] = useState("");
+  const [title, setTitle] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [procedure, setProcedure] = useState([]);
   const [isPublic, setIsPublic] = useState(false);
 
   const selectImageFromLibrary = async () => {
@@ -40,21 +43,63 @@ const ImagePickerWithdescription = () => {
     }
   };
 
+  const handleTitleChange = (text) => {
+    setTitle(text);
+  };
+
   const handleDescriptionChange = (text) => {
     setDescription(text);
   };
 
-  const handleIngredientsChange = (text) => {
-    setIngredients(text);
+  const handleIngredientChange = (text, index) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients[index] = text;
+    setIngredients(updatedIngredients);
   };
 
-  const handleProcedureChange = (text) => {
-    setProcedure(text);
+  const handleProcedureChange = (text, index) => {
+    const updatedProcedure = [...procedure];
+    updatedProcedure[index] = text;
+    setProcedure(updatedProcedure);
   };
 
   const toggleSwitch = () => {
     setIsPublic((previousState) => !previousState);
   };
+
+  const addNewIngredient = () => {
+    setIngredients([...ingredients, ""]);
+  };
+
+  const addNewProcedure = () => {
+    setProcedure([...procedure, ""]);
+  };
+
+  const removeIngredient = (index) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients.splice(index, 1);
+    setIngredients(updatedIngredients);
+  };
+
+  const removeProcedure = (index) => {
+    const updatedProcedure = [...procedure];
+    updatedProcedure.splice(index, 1);
+    setProcedure(updatedProcedure);
+  };
+
+  const uploadData = async () => {
+    //userProfile = await AsyncStorage.setItem('userProfile', JSON.stringify(userProfile));
+    const recipe = {};
+    recipe.recipe_picture = selectedImage;
+    recipe.user_id = "example user"; // userProfile.user_id
+    recipe.recipe_title = title;
+    recipe.recipe_description = description;
+    recipe.insturctions = procedure;
+    recipe.ingredients = ingredients;
+    recipe.is_public = !isPublic;
+    await createRecipe(recipe)
+    Alert.alert("Upload Complete!");
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,26 +118,59 @@ const ImagePickerWithdescription = () => {
           )}
         </TouchableOpacity>
         <TextInput
+          style={styles.titleInput}
+          multiline={true}
+          placeholder="Add a Title"
+          placeholderTextColor="honeydew"
+          value={title}
+          onChangeText={handleTitleChange}
+        />
+        <TextInput
           style={styles.descriptionInput}
           multiline={true}
           placeholder="Add a description"
+          placeholderTextColor="honeydew"
           value={description}
           onChangeText={handleDescriptionChange}
         />
-        <TextInput
-          style={styles.descriptionInput}
-          multiline={true}
-          placeholder="Add a list of ingredients"
-          value={ingredients}
-          onChangeText={handleIngredientsChange}
-        />
-        <TextInput
-          style={styles.descriptionInput}
-          multiline={true}
-          placeholder="Add a step-by-step procedure"
-          value={procedure}
-          onChangeText={handleProcedureChange}
-        />
+        <View style={styles.listContainer}>
+          <Text style={styles.listTitle}>Ingredients</Text>
+          {ingredients.map((ingredient, index) => (
+            <View style={styles.listItem} key={index}>
+              <TextInput
+                style={styles.listInput}
+                multiline={true}
+                placeholder={`Ingredient ${index + 1}`}
+                placeholderTextColor="honeydew"
+                value={ingredient}
+                onChangeText={(text) => handleIngredientChange(text, index)}
+              />
+              <TouchableOpacity onPress={() => removeIngredient(index)}>
+                <Text style={styles.removeButton}>Remove</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+          <Button title="Add Ingredient" onPress={addNewIngredient} />
+        </View>
+        <View style={styles.listContainer}>
+          <Text style={styles.listTitle}>Procedure</Text>
+          {procedure.map((step, index) => (
+            <View style={styles.listItem} key={index}>
+              <TextInput
+                style={styles.listInput}
+                multiline={true}
+                placeholder={`Step ${index + 1}`}
+                placeholderTextColor="honeydew"
+                value={step}
+                onChangeText={(text) => handleProcedureChange(text, index)}
+              />
+              <TouchableOpacity onPress={() => removeProcedure(index)}>
+                <Text style={styles.removeButton}>Remove</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+          <Button title="Add Procedure Step" onPress={addNewProcedure} />
+        </View>
         <View style={styles.switchContainer}>
           <Text style={styles.switchLabel}>Public</Text>
           <Switch
@@ -107,7 +185,7 @@ const ImagePickerWithdescription = () => {
         <Button
           title="Upload"
           color={"white"}
-          onPress={() => alert("Upload button pressed!")}
+          onPress={uploadData}
         />
       </ScrollView>
     </SafeAreaView>
@@ -143,7 +221,7 @@ const styles = StyleSheet.create({
   },
   previewText: {
     fontSize: 16,
-    color: "#666",
+    color: "black",
   },
   image: {
     width: "100%",
@@ -151,6 +229,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   descriptionInput: {
+    width: "100%",
+    minHeight: 30,
+    maxHeight: 120,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    color: "white",
+  },
+  titleInput: {
     width: "100%",
     minHeight: 30,
     maxHeight: 120,
@@ -172,6 +261,40 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  listContainer: {
+    marginBottom: 20,
+  },
+  listTitle: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  listItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  listInput: {
+    flex: 1,
+    minHeight: 30,
+    maxHeight: 120,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginRight: 10,
+    color: "white",
+  },
+  removeButton: {
+    color: "white",
+    borderColor: "crimson",
+    borderWidth: 2,
+    borderRadius: 5,
+    backgroundColor: "crimson",
+    overflow: "hidden",
+  },
 });
+
 
 export default ImagePickerWithdescription;
