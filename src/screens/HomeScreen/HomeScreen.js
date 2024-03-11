@@ -55,7 +55,11 @@ const HomeScreen = () => {
         <View style={styles.userInfoText}>
           <Text style={styles.username}>{userProfile.user_id}</Text>
           <Text style={styles.bio}>Cooking Level: {userProfile.cooking_level}</Text>
-          <Text style={styles.bio}>Dietary Restrictions: {userProfile.dietary_restrictions.join(', ')}</Text>
+            <Text style={styles.bio}>Dietary Restrictions: {
+              userProfile.dietary_restrictions && userProfile.dietary_restrictions.length > 1 ?
+                userProfile.dietary_restrictions.join(', ') :
+                (userProfile.dietary_restrictions.length == 0 ? "None" 
+                : userProfile.dietary_restrictions)}</Text>
         </View>
       </View>
       <View style={styles.stats}>
