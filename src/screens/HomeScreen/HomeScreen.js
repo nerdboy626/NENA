@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Sample from "../../../assets/favicon.png";
-import { loadRecipeFeedData } from "../../../backend/recipesAPI";
+import { loadUserRecipe } from "../../../backend/recipesAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {
@@ -14,7 +14,7 @@ const HomeScreen = () => {
       let userInfo = await AsyncStorage.getItem("userProfile");
       userInfo = JSON.parse(userInfo);
       setUserProfile(userInfo);
-      const recipes = await loadRecipeFeedData(userInfo.user_id);
+      const recipes = await loadUserRecipe(userInfo.user_id);
       setRecipes(recipes);
     } catch (e) {
       console.error(e);

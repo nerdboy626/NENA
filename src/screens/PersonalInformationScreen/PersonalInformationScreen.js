@@ -40,10 +40,6 @@ const SignInScreen = () => {
       console.error(e);
     }
   };
-  const Rectangle = () => {
-    return <View style={styles.rectangle} />;
-  };
-  const { height, width } = useWindowDimensions();
 
   return (
     <SafeAreaView style={styles.container}>

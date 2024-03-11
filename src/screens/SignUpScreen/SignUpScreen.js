@@ -7,26 +7,35 @@ import {
   useWindowDimensions,
   SafeAreaView,
 } from "react-native";
-
+import { Themes } from "../../../assets/Themes";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignUpScreen = () => {
-  const { username, setUsername } = useState("");
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
-  const { passwordRepeat, setPasswordRepeat } = useState("");
+  const [ username, setUsername ] = useState(""); // should be [ ] and not { }
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ passwordRepeat, setPasswordRepeat ] = useState("");
   const navigation = useNavigation();
-  const onRegisterPressed = () => {
-    // console.warn("Register");
-    navigation.navigate("Welcome screen");
+  const onRegisterPressed = async () => { // When calling AsyncStorage, need to make functions async ()
+    try { // Also need these try/catch statements when handling async functions
+      let userProfile = {
+        user_id: username,
+        email: email,
+        password: password,
+      }
+      await AsyncStorage.setItem('userProfile', JSON.stringify(userProfile)); // Stores userProfile dict into variable that persists across multiple files
+      navigation.navigate("Welcome screen");
+    } catch (e) {
+      console.error(e);
+    }
   };
   const onSignInPressed = () => {
-    // console.warn("Sign in");
     navigation.navigate("Sign in screen");
   };
-  //const {height} = useWindowDimensions();
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.fitbud}>NENA</Text>
@@ -34,28 +43,28 @@ const SignUpScreen = () => {
         <Text style={styles.title}>Sign up</Text>
         <Text style={styles.label}>Username</Text>
         <CustomInput
-          placeholder="Enter username"
           value={username}
           setValue={setUsername}
+          placeholder="Enter username"
         />
         <Text style={styles.label}>Email</Text>
         <CustomInput
+          value={email}
+          setValue={setEmail}
           placeholder="Enter email"
-          value={username}
-          setValue={setUsername}
         />
         <Text style={styles.label}>Password</Text>
         <CustomInput
-          placeholder="Enter password"
           value={password}
           setValue={setPassword}
+          placeholder="Enter password"
           secureTextEntry={true}
         />
         <Text style={styles.label}>Confirm password</Text>
         <CustomInput
+          value={passwordRepeat}
+          setValue={setPasswordRepeat}
           placeholder="Enter password"
-          value={password}
-          setValue={setPassword}
           secureTextEntry={true}
         />
       </View>
@@ -68,41 +77,13 @@ const SignUpScreen = () => {
         />
       </View>
     </SafeAreaView>
-    // <View style={styles.root}>
-    //   <Image source={Logo} style={styles.logo} resizeMode="contain" />
-    //   <Text style={styles.title}>Create an account</Text>
-    //   <CustomInput
-    //     placeholder="Username"
-    //     value={username}
-    //     setValue={setUsername}
-    //   />
-    //   <CustomInput placeholder="Email" value={email} setValue={setEmail} />
-    //   <CustomInput
-    //     placeholder="Password"
-    //     value={password}
-    //     setValue={setPassword}
-    //     secureTextEntry={true}
-    //   />
-    //   <CustomInput
-    //     placeholder="Repeat password"
-    //     value={passwordRepeat}
-    //     setValue={setPasswordRepeat}
-    //     secureTextEntry={true}
-    //   />
-    //   <CustomButton text="Register" onPress={onRegisterPressed} />
-    //   <CustomButton
-    //     text="Already have an account? Sign in"
-    //     onPress={onSignInPressed}
-    //     type="TERTIARY"
-    //   />
-    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FF5236",
+    backgroundColor: Themes.colors.background,
   },
   root: {
     //alignItems: "center",

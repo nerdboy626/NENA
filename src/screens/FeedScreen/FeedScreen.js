@@ -12,7 +12,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Themes } from "../../../assets/Themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { loadRecipeFeedData } from "../../../backend/recipesAPI";
 import { getFriendsRecipes } from "../../../backend/searchAPI";
 import UpdateItem from "./UpdateView";
 import TryAgain from "./TryAgain";
@@ -39,9 +38,9 @@ export default function Page() {
       console.log("hey");
       //console.log(userName);
       //console.log("hey");
-      //setRecipes(loadRecipeFeedData(userInfo.user_id));
-      //recipeList = await loadRecipeFeedData(userInfo.user_id);
-      const recipes = await loadRecipeFeedData(userInfo.user_id);
+      const recipes = await getFriendsRecipes(userInfo.user_id);
+      // TODO (by alex): fyi its most likely going to throw an error because of your console.log statemetns.
+      // when user's friends have no recipes, recipes list will be empty. console.log(recipeList[0]) will thus throw error
       setRecipes(recipes);
       console.log(recipeList);
       console.log("ahhhhh");
