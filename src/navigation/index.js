@@ -17,6 +17,7 @@ import GettingStartedScreen from "../screens/GettingStartedScreen";
 import HomeScreen from "../screens/HomeScreen";
 import FeedScreen from "../screens/FeedScreen";
 import SearchScreen from "../screens/SearchScreen";
+import UploadScreen from "../screens/UploadScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -299,6 +300,16 @@ const Tabs = () => {
           tabBarLabel: "Search",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="search" size={36} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Upload"
+        component={UploadScreen}
+        options={{
+          tabBarLabel: "Upload",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="create" size={36} color={color} />
           ),
         }}
       />

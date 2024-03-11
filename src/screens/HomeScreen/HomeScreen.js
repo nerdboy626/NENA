@@ -1,132 +1,98 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  useWindowDimensions,
-  SafeAreaView,
-} from "react-native";
-import CustomInput from "../../components/CustomInput";
-import CustomButton from "../../components/CustomButton";
-import { useNavigation } from "@react-navigation/native";
-import { Themes } from "../../../assets/Themes";
+import React from "react";
+import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Sample from "../../../assets/favicon.png";
 
-const FirstScreen = () => {
-  const { username, setUsername } = useState("");
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
-  const { passwordRepeat, setPasswordRepeat } = useState("");
-  const navigation = useNavigation();
-  const onGetStartedPressed = () => {
-    // console.warn("Get started");
-    // navigation.navigate("Sign in screen");
-    console.log("hi");
-  };
-  //const {height} = useWindowDimensions();
+const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.fitbud}>home screen</Text>
-      {/* <Image source={Logo1} style={styles.logo1} resizeMode="contain" />
-      <Image source={Logo2} style={styles.logo2} resizeMode="contain" /> */}
-      <View style={styles.buttons}>
-        <CustomButton
-          text="hi"
-          onPress={onGetStartedPressed}
-          type="SECONDARY"
-        />
+      <View style={styles.userInfo}>
+        <Image style={styles.profileImage} source={Sample} />
+        <View style={styles.userInfoText}>
+          <Text style={styles.username}>Your Username</Text>
+          <Text style={styles.bio}>Your Bio</Text>
+        </View>
+      </View>
+      <View style={styles.stats}>
+        <View style={styles.stat}>
+          <Text style={styles.statNumber}>100</Text>
+          <Text style={styles.statLabel}>Recipes</Text>
+        </View>
+        <View style={styles.stat}>
+          <Text style={styles.statNumber}>100</Text>
+          <Text style={styles.statLabel}>Followers</Text>
+        </View>
+        <View style={styles.stat}>
+          <Text style={styles.statNumber}>100</Text>
+          <Text style={styles.statLabel}>Following</Text>
+        </View>
+      </View>
+      <View style={styles.posts}>
+        <Image style={styles.postImage} source={Sample} />
+        <Image style={styles.postImage} source={Sample} />
+        <Image style={styles.postImage} source={Sample} />
       </View>
     </SafeAreaView>
-    // <View style={styles.root}>
-    //   <Image source={Logo} style={styles.logo} resizeMode="contain" />
-    //   <Text style={styles.title}>Create an account</Text>
-    //   <CustomInput
-    //     placeholder="Username"
-    //     value={username}
-    //     setValue={setUsername}
-    //   />
-    //   <CustomInput placeholder="Email" value={email} setValue={setEmail} />
-    //   <CustomInput
-    //     placeholder="Password"
-    //     value={password}
-    //     setValue={setPassword}
-    //     secureTextEntry={true}
-    //   />
-    //   <CustomInput
-    //     placeholder="Repeat password"
-    //     value={passwordRepeat}
-    //     setValue={setPasswordRepeat}
-    //     secureTextEntry={true}
-    //   />
-    //   <CustomButton text="Register" onPress={onRegisterPressed} />
-    //   <CustomButton
-    //     text="Already have an account? Sign in"
-    //     onPress={onSignInPressed}
-    //     type="TERTIARY"
-    //   />
-    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Themes.colors.background,
-    justifyContent: "center",
+    backgroundColor: "#fff",
   },
-  root: {
-    //alignItems: "center",
-    padding: 45,
-    paddingBottom: 10,
-    backgroundColor: "white",
-    borderTopRightRadius: 30,
-    borderTopLeftRadius: 30,
-  },
-  buttons: {
+  userInfo: {
+    flexDirection: "row",
     alignItems: "center",
-    paddingBottom: 100,
-    verticalAlign: "center",
+    padding: 20,
   },
-  fitbud: {
-    fontSize: 48,
-    fontWeight: "bold",
-    color: "white",
-    margin: 30,
-    textAlign: "center",
-  },
-  title: {
-    fontSize: 30,
-    color: "black",
-    textAlign: "left",
-    margin: 2,
-    marginBottom: 40,
-  },
-  label: {
-    fontSize: 24,
-    color: "black",
-    textAlign: "left",
-    margin: 2,
-  },
-  logo1: {
-    width: "100%",
-    height: 500,
-    position: "absolute",
-    left: -120,
-    bottom: -100,
-  },
-  logo2: {
-    width: "100%",
-    height: 500,
-    position: "absolute",
-    right: -225,
-    top: 20,
-    transform: [{ rotateZ: "-30deg" }],
-  },
-  rectangle: {
-    width: "100%",
+  profileImage: {
+    width: 100,
     height: 100,
-    backgroundColor: "red",
+    borderRadius: 50,
+  },
+  userInfoText: {
+    marginLeft: 20,
+  },
+  username: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  bio: {
+    fontSize: 16,
+    marginTop: 5,
+    color: "#666",
+  },
+  stats: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 10,
+  },
+  stat: {
+    alignItems: "center",
+  },
+  statNumber: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  statLabel: {
+    fontSize: 14,
+    color: "#666",
+  },
+  posts: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    paddingVertical: 20,
+  },
+  postImage: {
+    width: 120,
+    height: 120,
+    marginBottom: 10,
   },
 });
 
-export default FirstScreen;
+export default HomeScreen;

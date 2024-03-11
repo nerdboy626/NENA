@@ -13,17 +13,18 @@ import {
   getDoc,
   updateDoc,
   FirestoreError,
-  orderBy,
+  serverTimestamp,
 } from "firebase/firestore";
 import { FIRESTORE_DB as db } from "../firebaseConfig";
 import { getDatabase, onValue, ref } from "firebase/database";
+import { uploadImage } from "./imagesAPI";
 
 export const createRecipe = async (recipe) => {
   const imageUri = recipe.recipe_picture;
-  const downloadURL = await uploadImage(imageUri);
+  const downloadURL = await uploadImage(imageUri, "recipes");
   recipe["recipe_picture"] = downloadURL;
 
-  recipe.time_stamp = serverTimestamp();
+  recipe["time_stamp"] = serverTimestamp();
   await addDoc(collection(db, "recipes"), recipe);
   console.log("Recipe uploaded successfully");
   return recipe; // NGORLI + frontend: need to take care of updated recipe_picture url to the frontend
