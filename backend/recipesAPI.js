@@ -27,7 +27,7 @@ export const createRecipe = async (recipe) => {
 
   recipe["time_stamp"] = serverTimestamp();
   await addDoc(collection(db, "recipes"), recipe);
-  console.log("Recipe uploaded successfully");
+  console.log("Recipe uploaded successfully", recipe);
   return recipe; // NGORLI + frontend: need to take care of updated recipe_picture url to the frontend
 };
 

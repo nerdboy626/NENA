@@ -15,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Themes } from "../../../assets/Themes";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createRecipe } from "../../../backend/recipesAPI";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ImagePickerWithdescription = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -39,7 +40,7 @@ const ImagePickerWithdescription = () => {
     });
 
     if (!result.cancelled) {
-      setSelectedImage(result.uri);
+      setSelectedImage(result.assets[0].uri);
     }
   };
 
@@ -88,22 +89,38 @@ const ImagePickerWithdescription = () => {
   };
 
   const uploadData = async () => {
-    //userProfile = await AsyncStorage.setItem('userProfile', JSON.stringify(userProfile));
-    const recipe = {};
-    recipe.recipe_picture = selectedImage;
-    recipe.user_id = "example user"; // userProfile.user_id
-    recipe.recipe_title = title;
-    recipe.recipe_description = description;
-    recipe.insturctions = procedure;
-    recipe.ingredients = ingredients;
-    recipe.is_public = !isPublic;
-    await createRecipe(recipe)
-    Alert.alert("Upload Complete!");
+    try {
+      let userProfile = await AsyncStorage.getItem("userProfile");
+      userProfile = JSON.parse(userProfile);
+      const recipe = {};
+      recipe.recipe_picture = selectedImage;
+      recipe.user_id = userProfile.user_id;
+      recipe.recipe_title = title;
+      recipe.recipe_description = description;
+      recipe.insturctions = procedure;
+      recipe.ingredients = ingredients;
+      recipe.is_public = !isPublic;
+      await createRecipe(recipe);
+      Alert.alert("Upload Complete!");
+
+      // Back to initial values
+      setSelectedImage(null);
+      setDescription("");
+      setTitle("");
+      setIngredients([]);
+      setProcedure([]);
+      setIsPublic(false);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.header}>
           <Text style={styles.headerText}>Create recipe</Text>
         </View>
