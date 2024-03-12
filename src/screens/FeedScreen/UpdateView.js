@@ -11,7 +11,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Themes } from "../../../assets/Themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { loadRecipeFeedData } from "../../../backend/recipesAPI";
+import { loadUserRecipe } from "../../../backend/recipesAPI";
 import { getFriendsRecipes } from "../../../backend/searchAPI";
 
 const windowWidth = Dimensions.get("window").width;
