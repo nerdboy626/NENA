@@ -22,26 +22,21 @@ const UpdateItem = ({ item, index }) => {
   const pic = item.recipe_picture;
   const recipeInfo = item.recipe_description;
   const userName = item.user_id;
+  const profilePic = item.profile_picture
 
-  //const eventPromoter = item._embedded.promoter.name;
-  //const eventType = item.classifications[0].segment.name;
-  //const eventSubType = item.classifications[0].genre.name;
-  //const eventDate = item.dates.start.localDate;
-  //const priceMin = item._embedded.priceRanges[0].min;
-  //const priceMax = item.priceRanges[0].max;
-  //const eventVenue = item._embedded.venues[0].name;
-  //const eventWebsite = item.url;
-  //console.log(item);
-  //console.log(item.description);
+
   return (
     <SafeAreaView>
       <View style={styles.updateContainer}>
         <View style={styles.updateHeader}>
-          <Ionicons
-            name="person-circle-outline"
-            size={60}
-            color={Themes.colors.darkShade}
-          />
+          {profilePic ? (
+            <Image
+              style={styles.profileImage}
+              source={{ uri: profilePic }}
+            />
+          ) : (
+            <View style={styles.defaultProfileImage} />
+          )}
           <Text numberOfLines={1} style={styles.userProfile}>
             {userName}
           </Text>
@@ -50,16 +45,11 @@ const UpdateItem = ({ item, index }) => {
           <Image
             style={styles.recipeImage}
             source={{ uri: pic }}
-
-            //{require("../../../assets/favicon.png")}
           />
         </View>
         <View style={styles.updateFooter}>
           <Text numberOfLines={1} style={styles.recipeDescription}>
             {recipeName}
-          </Text>
-          <Text numberOfLines={1} style={styles.recipeDescription}>
-            This is where the recipe rating would go
           </Text>
           <Text numberOfLines={2} style={styles.recipeDescription}>
             {recipeInfo}
@@ -84,28 +74,37 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 15,
     borderWidth: 5,
-    borderColor: Themes.colors.lightShade,
+    borderColor: Themes.colors.medShade,
     borderRadius: 20,
-    backgroundColor: Themes.colors.boxBackground,
+    backgroundColor: Themes.colors.darkShade,
+  },
+  profileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30, // Half of the width and height to make it circular
+    marginRight: 10,
+  },
+  defaultProfileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 10,
+    backgroundColor: Themes.colors.lightShade, // Add a default background color
   },
   updateHeader: {
     height: "10%",
     width: "100%",
     flexDirection: "row",
-    borderColor: "blue",
-    borderWidth: 1,
     alignItems: "center",
   },
   userProfile: {
     fontSize: 32,
     fontWeight: "bold",
-    color: Themes.colors.darkShade,
+    color: Themes.colors.lightShade,
   },
   recipeImageContainer: {
     height: "70%",
     width: "100%",
-    borderColor: "black",
-    borderWidth: 1,
   },
   recipeImage: {
     height: "100%",
@@ -117,12 +116,11 @@ const styles = StyleSheet.create({
     height: "20%",
     width: "100%",
     justifyContent: "space-around",
-    borderColor: "purple",
-    borderWidth: 2,
   },
   recipeDescription: {
     fontSize: 24,
     fontWeight: "bold",
-    color: Themes.colors.darkShade,
+    color: "honeydew",
+    marginLeft: 16
   },
 });
