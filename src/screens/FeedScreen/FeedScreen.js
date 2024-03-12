@@ -8,6 +8,7 @@ import {
   Dimensions,
   SafeAreaView,
   FlatList,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Themes } from "../../../assets/Themes";
@@ -29,23 +30,8 @@ export default function Page() {
     try {
       let userInfo = await AsyncStorage.getItem("userProfile");
       userInfo = JSON.parse(userInfo);
-      console.log("hi");
-      //console.log("user_info", userInfo);
-      //setUsername("heloooo");
-      //let userName = "heloooooo";
-      console.log(userInfo.user_id);
-      console.log(userInfo);
-      console.log("hey");
-      //console.log(userName);
-      //console.log("hey");
       const recipes = await getFriendsRecipes(userInfo.user_id);
-      // TODO (by alex): fyi its most likely going to throw an error because of your console.log statemetns.
-      // when user's friends have no recipes, recipes list will be empty. console.log(recipeList[0]) will thus throw error
       setRecipes(recipes);
-      console.log(recipeList);
-      console.log("ahhhhh");
-      console.log(recipeList[0]);
-      console.log(recipeList[0].recipe_title);
     } catch (e) {
       console.error(e);
     }
@@ -55,7 +41,6 @@ export default function Page() {
     getRecipes();
   }, []);
 
-  //getRecipes();
 
   let contentDisplayed = null;
 
@@ -72,54 +57,17 @@ export default function Page() {
     contentDisplayed = <TryAgain />;
   }
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>{contentDisplayed}</View>
-    </SafeAreaView>
-  );
-  /*
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.updateContainer}>
-        <View style={styles.updateHeader}>
-          <Ionicons
-            name="person-circle-outline"
-            size={60}
-            color={Themes.colors.darkShade}
-          />
-          <Text numberOfLines={1} style={styles.userProfile}>
-            {recipeList.length > 0 ? recipeList[0].user_id : "Loading..."}
-          </Text>
-        </View>
-        <View style={styles.recipeImageContainer}>
-          <Image
-            style={styles.recipeImage}
-            source={
-              recipeList.length > 0
-                ? { uri: recipeList[0].recipe_picture }
-                : require("../../../assets/favicon.png")
-            }
+  console.log(contentDisplayed)
 
-            //{require("../../../assets/favicon.png")}
-          />
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.container}>
+          {contentDisplayed}
         </View>
-        <View style={styles.updateFooter}>
-          <Text numberOfLines={1} style={styles.recipeDescription}>
-            {recipeList.length > 0 ? recipeList[0].recipe_title : "Loading..."}
-          </Text>
-          <Text numberOfLines={1} style={styles.recipeDescription}>
-            This is where the recipe rating would go
-          </Text>
-          <Text numberOfLines={2} style={styles.recipeDescription}>
-            {recipeList.length > 0
-              ? recipeList[0].recipe_description
-              : "Loading..."}
-          </Text>
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
-  */
 }
 
 const styles = StyleSheet.create({
@@ -137,7 +85,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: Themes.colors.lightShade,
     borderRadius: 20,
-    backgroundColor: Themes.colors.boxBackground,
+    backgroundColor: Themes.colors.darkShade,
   },
   updateHeader: {
     height: "10%",
@@ -161,8 +109,6 @@ const styles = StyleSheet.create({
   recipeImage: {
     height: "100%",
     width: "100%",
-    //borderTopLeftRadius: 15,
-    //borderBottomLeftRadius: 15,
   },
   updateFooter: {
     height: "20%",
