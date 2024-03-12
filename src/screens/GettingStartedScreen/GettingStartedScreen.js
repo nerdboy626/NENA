@@ -75,7 +75,7 @@ const GettingStartedScreen = () => {
       console.log('diet', diet);
       userProfile = {
         ...userProfile,
-        'profile_picture': userImage,
+        'profile_picture': userImage, // TODO: need to have dummy profile when image is not selected
         'cooking_level': expertise,
         'dietary_restrictions': diet,
       }
