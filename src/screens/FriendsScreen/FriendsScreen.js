@@ -185,7 +185,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "white",
     flex: 1,
-    marginBottom: 100,
   },
   friends: {
     fontSize: 15,
