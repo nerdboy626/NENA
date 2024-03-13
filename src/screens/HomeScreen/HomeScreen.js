@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Sample from "../../../assets/favicon.png";
 import { Themes } from "../../../assets/Themes";
+import { loadUserData } from "../../../backend/usersAPI";
 import { loadUserRecipe } from "../../../backend/recipesAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -81,10 +82,12 @@ const HomeScreen = () => {
 
   const getUserProfile = async () => {
     try {
-      let userInfo = await AsyncStorage.getItem("userProfile");
-      userInfo = JSON.parse(userInfo);
-      setUserProfile(userInfo);
-      const recipes = await loadUserRecipe(userInfo.user_id);
+      let userProfile = await AsyncStorage.getItem("userProfile"); // TODO: need to change this perhaps to loadUserData?
+      userProfile = JSON.parse(userProfile);
+      userProfile = await loadUserData(userProfile.user_id); // Due to potential of userProfile being asynchronously loaded by another user's friend request
+      await AsyncStorage.setItem('userProfile', JSON.stringify(userProfile));
+      setUserProfile(userProfile);
+      const recipes = await loadUserRecipe(userProfile.user_id);
       setRecipes(recipes);
     } catch (e) {
       console.error(e);
@@ -146,14 +149,10 @@ const HomeScreen = () => {
             </Text>
             <Text style={styles.statLabel}>Friends</Text>
           </View>
-          {/* <View style={styles.stat}>
-          <Text style={styles.statNumber}>100</Text>
-          <Text style={styles.statLabel}>Following</Text>
-        </View> */}
         </View>
         <View style={styles.posts}>
           {recipeList.map((recipe, index) => (
-            <Pressable onPress={() => handleImagePress(recipe)}>
+            <Pressable key={recipe.id || index} onPress={() => handleImagePress(recipe)}>
               <Image
                 key={index}
                 style={styles.postImage}
@@ -244,13 +243,16 @@ const styles = StyleSheet.create({
   posts: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     paddingVertical: 20,
+    marginLeft: 5, // TODO: should prob change this later to fit all iPhone screen
   },
   postImage: {
-    width: 120,
-    height: 120,
-    marginBottom: 10,
+    width: 125,
+    height: 125,
+    marginBottom: 3,
+    marginRight: 3,
   },
 
 

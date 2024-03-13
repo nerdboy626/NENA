@@ -124,8 +124,8 @@ const SearchResults = () => {
         </View>
 
         <View style={styles.searchResultsContainer}>
-          {searchResults.map((result) => (
-            <Pressable key={result.id} onPress={() => handlePress(result)}>
+          {searchResults.map((result, index) => (
+            <Pressable key={result.id || index} onPress={() => handlePress(result)}>
               <View style={styles.searchResult}>
                 <View style={styles.imageContainer}>
                   <Image
