@@ -11,22 +11,24 @@ import { Themes } from "../../../assets/Themes";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUpScreen = () => {
-  const [ username, setUsername ] = useState(""); // should be [ ] and not { }
-  const [ email, setEmail ] = useState("");
-  const [ password, setPassword ] = useState("");
-  const [ passwordRepeat, setPasswordRepeat ] = useState("");
+  const { username, setUsername } = useState("");
+  const { email, setEmail } = useState("");
+  const { password, setPassword } = useState("");
+  const { passwordRepeat, setPasswordRepeat } = useState("");
   const navigation = useNavigation();
-  const onRegisterPressed = async () => { // When calling AsyncStorage, need to make functions async ()
-    try { // Also need these try/catch statements when handling async functions
+  const onRegisterPressed = async () => {
+    // When calling AsyncStorage, need to make functions async ()
+    try {
+      // Also need these try/catch statements when handling async functions
       let userProfile = {
         user_id: username,
         email: email,
         password: password,
-      }
-      await AsyncStorage.setItem('userProfile', JSON.stringify(userProfile)); // Stores userProfile dict into variable that persists across multiple files
+      };
+      await AsyncStorage.setItem("userProfile", JSON.stringify(userProfile)); // Stores userProfile dict into variable that persists across multiple files
       navigation.navigate("Welcome screen");
     } catch (e) {
       console.error(e);
@@ -43,28 +45,28 @@ const SignUpScreen = () => {
         <Text style={styles.title}>Sign up</Text>
         <Text style={styles.label}>Username</Text>
         <CustomInput
+          placeholder="Enter username"
           value={username}
           setValue={setUsername}
-          placeholder="Enter username"
         />
         <Text style={styles.label}>Email</Text>
         <CustomInput
-          value={email}
-          setValue={setEmail}
           placeholder="Enter email"
+          value={username}
+          setValue={setUsername}
         />
         <Text style={styles.label}>Password</Text>
         <CustomInput
+          placeholder="Enter password"
           value={password}
           setValue={setPassword}
-          placeholder="Enter password"
           secureTextEntry={true}
         />
         <Text style={styles.label}>Confirm password</Text>
         <CustomInput
-          value={passwordRepeat}
-          setValue={setPasswordRepeat}
           placeholder="Enter password"
+          value={password}
+          setValue={setPassword}
           secureTextEntry={true}
         />
       </View>
@@ -83,7 +85,7 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Themes.colors.background,
+    backgroundColor: "#FF5236",
   },
   root: {
     //alignItems: "center",

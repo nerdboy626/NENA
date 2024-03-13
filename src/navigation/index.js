@@ -18,6 +18,13 @@ import HomeScreen from "../screens/HomeScreen";
 import FeedScreen from "../screens/FeedScreen";
 import SearchScreen from "../screens/SearchScreen";
 import UploadScreen from "../screens/UploadScreen";
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+import FriendsScreen from "../screens/FriendsScreen";
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -304,6 +311,22 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+        name="FriendsTab"
+        component={FriendsScreen}
+        options={{
+          tabBarLabel: "Friends",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people-outline" size={36} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         name="Upload"
         component={UploadScreen}
         options={{
