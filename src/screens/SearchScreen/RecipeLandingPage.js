@@ -15,6 +15,8 @@ import { Themes } from "../../../assets/Themes";
 
 const RecipeLanding = () => {
   const params = useLocalSearchParams();
+  console.log(params);
+  
   return (
     <View style={styles.container}>
       <Stack.Screen
