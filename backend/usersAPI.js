@@ -79,10 +79,10 @@ export const userLogin = async (userName, Password) => {
     // throw an error if there is non match for the username or 
     //if the password does not match for that username
     if (querySnapshot.size == 0 || querySnapshot.docs[0].data().password != Password) {
-      throw new Error('Sorry, you entered an incorrect username or password');
-    };
-    await addDoc(collection(db, 'users'), userProfile);
-    console.log('User login successful');
+      return false;
+    } else {
+      return true;
+    }
   } catch (error) {
     console.log('Error', error.message);
     return;
