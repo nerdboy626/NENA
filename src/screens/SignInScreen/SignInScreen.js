@@ -6,6 +6,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
+  Alert,
   SafeAreaView,
 } from "react-native";
 import CustomInput from "../../components/CustomInput";
@@ -14,18 +15,29 @@ import { useNavigation } from "@react-navigation/native";
 import { Themes } from "../../../assets/Themes";
 import { loadUserData } from "../../../backend/usersAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { userLogin } from "../../../backend/usersAPI";
 
 const SignInScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const onSignInPressed = async () => {
-    try { 
-      const userProfile = await loadUserData(username); // TODO: need to error check if invalid <username />
-      await AsyncStorage.setItem("userProfile", JSON.stringify(userProfile));
-      navigation.navigate("Home screen");
-    } catch (e) {
-      console.error(e);
+
+    console.log("username entered", username)
+    console.log("password enetered", password)
+
+    const validLogin = await userLogin(username, password)
+
+    if (validLogin) {
+      try {
+        const userProfile = await loadUserData(username); // TODO: need to error check if invalid <username />
+        await AsyncStorage.setItem("userProfile", JSON.stringify(userProfile));
+        navigation.navigate("Home screen");
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      Alert.alert("Sorry, you entered an incorrect username or password")
     }
   };
   const onForgotPasswordPressed = () => {
