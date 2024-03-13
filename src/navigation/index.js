@@ -264,9 +264,9 @@ const Tabs = () => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
-        tabBarActiveTintColor: Themes.colors.background,
-        tabBarInactiveTintColor: Themes.colors.lightShade,
-        //tabBarLabelStyle: { color: "black" },
+        tabBarActiveTintColor: Themes.colors.lightShade,
+        tabBarInactiveTintColor: "honeydew",
+        tabBarStyle: { backgroundColor: Themes.colors.darkShade, height: "10%" }
       }}
     >
       <Tab.Screen
