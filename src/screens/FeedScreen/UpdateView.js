@@ -7,33 +7,47 @@ import {
   useWindowDimensions,
   Dimensions,
   SafeAreaView,
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Themes } from "../../../assets/Themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loadUserRecipe } from "../../../backend/recipesAPI";
 import { getFriendsRecipes } from "../../../backend/searchAPI";
+import { loadUserData } from "../../../backend/usersAPI";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const UpdateItem = ({ item, index }) => {
+
+
+const UpdateItem = ({ item, index, onPressImage }) => {
   const recipeName = item.recipe_title;
   const pic = item.recipe_picture;
   const recipeInfo = item.recipe_description;
   const userName = item.user_id;
-  const profilePic = item.profile_picture
+  const [userData, setUserData] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await loadUserData(userName); // Call the getUser function with userId
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchData();
+  }, [userName]);
+
+  const profilePic = userData.profile_picture;
 
   return (
-    <SafeAreaView>
+    <Pressable onPress={() => onPressImage(item)}>
       <View style={styles.updateContainer}>
         <View style={styles.updateHeader}>
           {profilePic ? (
-            <Image
-              style={styles.profileImage}
-              source={{ uri: profilePic }}
-            />
+            <Image style={styles.profileImage} source={{ uri: profilePic }} />
           ) : (
             <View style={styles.defaultProfileImage} />
           )}
@@ -42,10 +56,7 @@ const UpdateItem = ({ item, index }) => {
           </Text>
         </View>
         <View style={styles.recipeImageContainer}>
-          <Image
-            style={styles.recipeImage}
-            source={{ uri: pic }}
-          />
+          <Image style={styles.recipeImage} source={{ uri: pic }} />
         </View>
         <View style={styles.updateFooter}>
           <Text numberOfLines={1} style={styles.recipeDescription}>
@@ -56,9 +67,10 @@ const UpdateItem = ({ item, index }) => {
           </Text>
         </View>
       </View>
-    </SafeAreaView>
+    </Pressable>
   );
 };
+
 export default UpdateItem;
 
 const styles = StyleSheet.create({

@@ -15,7 +15,6 @@ import {
   updateDoc,
   FirestoreError,
   serverTimestamp,
-  orderBy,
 } from "firebase/firestore";
 import { FIRESTORE_DB as db } from "../firebaseConfig";
 import { getDatabase, onValue, ref } from "firebase/database";
