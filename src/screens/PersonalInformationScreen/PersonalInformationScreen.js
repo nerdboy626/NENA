@@ -26,7 +26,7 @@ const SignInScreen = () => {
   const onNextPressed = async () => {
     // console.warn("Next");
     try {
-      let userProfile = await AsyncStorage.getItem('userProfile');
+      let userProfile = await AsyncStorage.getItem("userProfile");
       userProfile = JSON.parse(userProfile);
       userProfile = { // Addings fields newly populated in this file
         ...userProfile,

@@ -22,6 +22,7 @@ const FriendsScreen = () => {
   const [incomingRequests, setIncomingRequests] = useState([]);
   const [outgoingRequests, setOutgoingRequests] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [refreshingIndv, setRefreshingIndv] = useState(false);
 
   const handleSendRequest = async () => {
     try {
@@ -85,6 +86,18 @@ const FriendsScreen = () => {
     getUserProfile();
   }, []);
 
+  const onRefresh = async () => {
+    setRefreshingIndv(true);
+    try {
+      const updatedUserProfile = await loadUserData(username);
+      await AsyncStorage.setItem('userProfile', JSON.stringify(updatedUserProfile));
+      await getUserProfile();
+    } catch (error) {
+      console.error(error);
+    }
+    setRefreshingIndv(false);
+  };
+
   return (
     <SafeAreaView style={styles.containerSAV}>
       {refreshing ? (
@@ -110,6 +123,8 @@ const FriendsScreen = () => {
                 </View>
               </View>
             )}
+            refreshing={refreshingIndv}
+            onRefresh={onRefresh}  
           />
 
           <Text style={styles.title}>Send Friend Request</Text>
@@ -127,6 +142,8 @@ const FriendsScreen = () => {
             data={friends}
             keyExtractor={(item) => item}
             renderItem={({ item }) => <Text style={styles.friends}>{item}</Text>} // TODO: need to update  style
+            refreshing={refreshingIndv}
+            onRefresh={onRefresh}  
           />
         </View>
       )}
