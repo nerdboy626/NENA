@@ -195,8 +195,9 @@ export default MainStack2;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
+    flexGrow: 1,
+    backgroundColor: Themes.colors.darkShade,
+    height: windowHeight,
   },
   userInfo: {
     flexDirection: "row",
@@ -211,16 +212,18 @@ const styles = StyleSheet.create({
   userInfoText: {
     marginLeft: 20,
     flex: 1,
+    
   },
   username: {
     fontSize: 24,
     fontWeight: "bold",
+    color: Themes.colors.lightShade
   },
   bio: {
     fontSize: 12,
     marginTop: 5,
-    color: "#666",
-  },
+    color: "honeydew",
+    },
   stats: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -235,10 +238,11 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 18,
     fontWeight: "bold",
+    color: Themes.colors.lightShade
   },
   statLabel: {
     fontSize: 14,
-    color: "#666",
+    color: Themes.colors.lightShade
   },
   posts: {
     flexDirection: "row",
@@ -246,12 +250,13 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     paddingVertical: 20,
+    alignContent: "center",
     marginLeft: 5, // TODO: should prob change this later to fit all iPhone screen
   },
   postImage: {
-    width: 125,
+    width: windowWidth / 3.15,
     height: 125,
-    marginBottom: 3,
+    marginBottom: 5,
     marginRight: 3,
   },
 
