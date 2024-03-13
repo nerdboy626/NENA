@@ -30,32 +30,34 @@ const RecipeDetail = ({ route }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container2}>
-      <Text style={styles.recipeTitle}>{recipe.recipe_title}</Text>
-      <Text style={styles.recipeOwner}>{recipe.user_id}</Text>
-      <View style={styles.recipeImageContainer}>
-        <Image
-          style={styles.eventImage}
-          source={{ uri: recipe.recipe_picture }}
-        />
-      </View>
-      <Text style={styles.recipeDescription}> {recipe.recipe_description} </Text>
-      <Text style={styles.ingredientHeader}>Ingredients</Text>
-      <View style={styles.ingredientList}>
-        {recipe.ingredients.map((ingredient, index) => (
-          <View key={index} style={styles.ingredientItem}>
-            <Text style={styles.bulletPoint}>🔘</Text>
-            <Text style={styles.recipeIngredient}>{ingredient}</Text>
-          </View>
-        ))}
-      </View>
-      <Text style={styles.instructionHeader}>Instructions</Text>
-      <View style={styles.instructionList}>
-        {recipe.insturctions.map((instruction, index) => (
-          <View key={index} style={styles.instructionItem}>
-            <Text style={styles.bulletPoint}>🥣</Text>
-            <Text style={styles.recipeInstruction}>{instruction}</Text>
-          </View>
-        ))}
+      <View style={styles.recipeContent}>
+        <Text style={styles.recipeTitle}>{recipe.recipe_title}</Text>
+        <Text style={styles.recipeOwner}>{recipe.user_id}</Text>
+        <View style={styles.recipeImageContainer}>
+          <Image
+            style={styles.eventImage}
+            source={{ uri: recipe.recipe_picture }}
+          />
+        </View>
+        <Text style={styles.recipeDescription}> {recipe.recipe_description} </Text>
+        <Text style={styles.ingredientHeader}>Ingredients</Text>
+        <View style={styles.ingredientList}>
+          {recipe.ingredients.map((ingredient, index) => (
+            <View key={index} style={styles.ingredientItem}>
+              <Text style={styles.bulletPoint}>🔘</Text>
+              <Text style={styles.recipeIngredient}>{ingredient}</Text>
+            </View>
+          ))}
+        </View>
+        <Text style={styles.instructionHeader}>Instructions</Text>
+        <View style={styles.instructionList}>
+          {recipe.insturctions.map((instruction, index) => (
+            <View key={index} style={styles.instructionItem}>
+              <Text style={styles.bulletPoint}>🥣</Text>
+              <Text style={styles.recipeInstruction}>{instruction}</Text>
+            </View>
+          ))}
+        </View>
       </View>
     </ScrollView>
 
@@ -212,14 +214,15 @@ const styles = StyleSheet.create({
 
   // containers for the recipe landing page
   container2: {
-    flex: 1,
-    flexDirection: "column", // Try: 'row' or 'column'
+    flexGrow: 1,
     backgroundColor: Themes.colors.background,
     width: "100%",
   },
-
+  recipeContent: {
+    padding: 16,
+  },
   recipeImageContainer: {
-    height: "35%",
+    height: windowHeight * 0.3,
     width: "100%",
     alignItems: "center",
   },
