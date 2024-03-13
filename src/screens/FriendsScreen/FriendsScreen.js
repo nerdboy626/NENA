@@ -7,6 +7,7 @@ import {
   FlatList,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import { Themes } from "../../../assets/Themes";
@@ -98,6 +99,8 @@ const FriendsScreen = () => {
     setRefreshingIndv(false);
   };
 
+
+
   return (
     <SafeAreaView style={styles.containerSAV}>
       {refreshing ? (
@@ -105,27 +108,34 @@ const FriendsScreen = () => {
       ) : (
         <View style={styles.container}>
           <Text style={styles.title}>Friend Requests</Text>
-          <FlatList
-            data={incomingRequests}
-            keyExtractor={(item) => item}
-            renderItem={({ item }) => (
-              <View style={styles.requestItem}>
-                <Text style={styles.friendRequests}>{item}</Text>
-                <View style={styles.buttonContainer}>
-                  <Button
-                    title="Accept"
-                    onPress={() => handleAcceptRequest(item)}
-                  />
-                  <Button
-                    title="Reject"
-                    onPress={() => handleRejectRequest(item)}
-                  />
+          {incomingRequests.length === 0 ? (
+            <Text 
+              style={styles.noRequestsText}>
+                No friend requests
+            </Text>
+          ) : (
+            <FlatList
+              data={incomingRequests}
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => (
+                <View style={styles.requestItem}>
+                  <Text style={styles.friendRequests}>{item}</Text>
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="Accept"
+                      onPress={() => handleAcceptRequest(item)}
+                    />
+                    <Button
+                      title="Reject"
+                      onPress={() => handleRejectRequest(item)}
+                    />
+                  </View>
                 </View>
-              </View>
-            )}
-            refreshing={refreshingIndv}
-            onRefresh={onRefresh}  
-          />
+              )}
+              refreshing={refreshingIndv}
+              onRefresh={onRefresh}  
+            />
+          )}
 
           <Text style={styles.title}>Send Friend Request</Text>
           <TextInput
@@ -135,7 +145,10 @@ const FriendsScreen = () => {
             value={friendUsername}
             onChangeText={(text) => setFriendUsername(text)}
           />
-          <Button title="Send Request" onPress={handleSendRequest} />
+          <Button
+            title="Send Request"
+            onPress={handleSendRequest}
+          />
 
           <Text style={styles.title}>Friends</Text>
           <FlatList
@@ -166,11 +179,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     color: "white",
+    marginTop: 20,
   },
   friendRequests: {
     fontSize: 15,
     color: "white",
     flex: 1,
+    marginBottom: 100,
   },
   friends: {
     fontSize: 15,
@@ -197,6 +212,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between', 
     width: 150,
+  },
+  noRequestsText: {
+    fontSize: 16,
+    color: "honeydew",
+    textAlign: "center",
+    marginTop: 10,
   },
 });
 
