@@ -101,9 +101,12 @@ const HomeScreen = () => {
   const navigation = useNavigation();
 
   const handleImagePress = (result) => {
-    console.log("Image pressed:", result.recipe_title);
     navigation.navigate("Recipe", { recipe: result });
   };
+
+  const friendPress = () => {
+    navigation.navigate("Friends");
+  }
 
   return (
     // TODO: once we click friends, need to have a screen that shows all friends..?
@@ -143,12 +146,14 @@ const HomeScreen = () => {
             </Text>
             <Text style={styles.statLabel}>Recipes</Text>
           </View>
-          <View style={styles.stat}>
-            <Text style={styles.statNumber}>
-              {userProfile.friends ? userProfile.friends.length : []}
-            </Text>
-            <Text style={styles.statLabel}>Friends</Text>
-          </View>
+          <Pressable onPress={() => friendPress()}>
+            <View style={styles.stat}>
+              <Text style={styles.statNumber}>
+                {userProfile.friends ? userProfile.friends.length : []}
+              </Text>
+              <Text style={styles.statLabel}>Friends</Text>
+            </View>
+          </Pressable>
         </View>
         <View style={styles.posts}>
           {recipeList.map((recipe, index) => (
@@ -212,7 +217,7 @@ const styles = StyleSheet.create({
   userInfoText: {
     marginLeft: 20,
     flex: 1,
-    
+
   },
   username: {
     fontSize: 24,
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 5,
     color: "honeydew",
-    },
+  },
   stats: {
     flexDirection: "row",
     justifyContent: "space-around",
