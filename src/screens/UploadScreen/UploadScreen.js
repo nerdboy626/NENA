@@ -93,7 +93,11 @@ const ImagePickerWithdescription = () => {
       let userProfile = await AsyncStorage.getItem("userProfile");
       userProfile = JSON.parse(userProfile);
       const recipe = {};
-      recipe.recipe_picture = selectedImage;
+      if (selectedImage == null){
+        recipe.recipe_picture = "https://firebasestorage.googleapis.com/v0/b/cs194wdatabase.appspot.com/o/images%2Frecipes%2FScreenshot%202024-03-14%20at%202.35.02%E2%80%AFAM.png?alt=media&token=c6e6b70d-5c7d-494c-ad9d-b35f3f7d97a9";
+      } else {
+        recipe.recipe_picture = selectedImage
+      }
       recipe.user_id = userProfile.user_id;
       recipe.recipe_title = title;
       recipe.recipe_description = description;
