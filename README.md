@@ -21,3 +21,5 @@ Our app includes several key features:
 2. Look for recipes by typing and clicking on the search icon on the search page.
 3. Upload a recipe and instructions through the recipe creation page.
 4. Add friends and vire your feed through the friends page and feed page.
+
+Side note: If you upload a recipe or accept friend requests, you can pull down on the screen (just like on Instagram) to view the updated pages for PRofile, Feed, and Friends.
