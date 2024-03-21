@@ -34,7 +34,6 @@ import { Link } from "expo-router/";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -54,7 +53,10 @@ const RecipeLandingStack = ({ route }) => {
             source={{ uri: recipe.recipe_picture }}
           />
         </View>
-        <Text style={styles.recipeDescription}> {recipe.recipe_description} </Text>
+        <Text style={styles.recipeDescription}>
+          {" "}
+          {recipe.recipe_description}{" "}
+        </Text>
         <Text style={styles.ingredientHeader}>Ingredients</Text>
         <View style={styles.ingredientList}>
           {recipe.ingredients.map((ingredient, index) => (
@@ -75,11 +77,8 @@ const RecipeLandingStack = ({ route }) => {
         </View>
       </View>
     </ScrollView>
-
   );
 };
-
-
 
 //export default function Page() {
 const SearchResults = () => {
@@ -98,7 +97,6 @@ const SearchResults = () => {
     try {
       const results = await getPublicRecipes("example user", typed);
       setSearchResults(results);
-
     } catch (error) {
       console.error("Error performing search:", error);
     }
@@ -115,17 +113,20 @@ const SearchResults = () => {
               placeholder="What are you looking for?"
               value={typed}
             />
-            <Pressable onPress={performSearch}>
-              <View>
-                <Ionicons name="search" size={40} color={"black"} />
-              </View>
-            </Pressable>
           </View>
+          <Pressable onPress={performSearch}>
+            <View>
+              <Ionicons name="search" size={40} color={"black"} />
+            </View>
+          </Pressable>
         </View>
 
         <View style={styles.searchResultsContainer}>
           {searchResults.map((result, index) => (
-            <Pressable key={result.id || index} onPress={() => handlePress(result)}>
+            <Pressable
+              key={result.id || index}
+              onPress={() => handlePress(result)}
+            >
               <View style={styles.searchResult}>
                 <View style={styles.imageContainer}>
                   <Image
@@ -179,11 +180,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: Themes.colors.background,
+    //borderWidth: 2,
+    //borderColor: "red",
+  },
+  header: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    //borderColor: "blue",
+    //borderWidth: 2,
+    width: "100%",
+    height: "20%",
   },
   search: {
-    width: "100%",
+    width: "90%",
+    height: "100%",
     backgroundColor: Themes.colors.medShade,
     borderColor: Themes.colors.medShade,
+    //borderColor: "black",
     borderWidth: 2, // Adjust border width as needed
     borderRadius: 30, // Adjust border radius as needed
     flexDirection: "row",
@@ -200,8 +216,9 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
     padding: 10,
-    borderWidth: 1,
+    //borderWidth: 1,
     borderColor: Themes.colors.darkShade,
+    //borderColor: "purple",
     borderRadius: 5,
     marginTop: 40,
     marginLeft: 10,
@@ -210,6 +227,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20, // Adjust spacing between search results as needed
+    //borderColor: "red",
+    //borderWidth: 3,
   },
   imageContainer: {
     marginLeft: 0, // Adjust margin as needed
@@ -237,7 +256,6 @@ const styles = StyleSheet.create({
     width: "60%",
     color: "honeydew",
   },
-
 
   // containers for the recipe landing page
   container2: {
@@ -280,8 +298,8 @@ const styles = StyleSheet.create({
   ingredientHeader: {
     marginLeft: 10,
     fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 5,
     color: Themes.colors.lightShade,
   },
@@ -289,15 +307,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   ingredientItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
-    textAlign: 'center',
+    textAlign: "center",
   },
   bulletPoint: {
     marginRight: 5,
     fontSize: 20,
-    color: '',
+    color: "",
   },
   recipeIngredient: {
     fontSize: 20,
@@ -308,8 +326,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 10,
     fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 5,
     color: Themes.colors.lightShade,
   },
@@ -318,10 +336,10 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   instructionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
-    textAlign: 'center',
+    textAlign: "center",
   },
   bulletPoint: {
     marginRight: 5,
