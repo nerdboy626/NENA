@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   FlatList,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Themes } from "../../../assets/Themes";
@@ -70,6 +71,19 @@ const Page = () => {
   const [email, setEmail] = useState("");
   const [recipeList, setRecipes] = useState([]);
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    try {
+      // Call functions to fetch new data or refresh content here
+      await getRecipes();
+    } catch (error) {
+      console.error(error);
+    }
+    setRefreshing(false);
+  }, []);
+
 
   const handleImagePress = (result) => {
     console.log("Image pressed:", result.recipe_title);
@@ -120,6 +134,9 @@ const Page = () => {
             <UpdateItem item={item} index={index} onPressImage={handleImagePress} />
           )}
           keyExtractor={(item, index) => index.toString()}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       ) : (
         <TryAgain />
