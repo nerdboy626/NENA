@@ -1,7 +1,5 @@
 # Win24-Team35
 
-Wiki Page: https://github.com/StanfordCS194/Win24-Team35/wiki
-
 Introduction:
 Welcome to NENA, your ultimate recipe sharing app! NENA is a culinary space where you can explore an extensive collection of recipes, share your culinary creations with the world, and connect with friends to discover what delicious dishes they've been cooking up!!
 
